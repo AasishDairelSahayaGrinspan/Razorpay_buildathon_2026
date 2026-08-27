@@ -38,14 +38,30 @@ enum CartStatus {
   CHECKOUT_READY
 }
 
+enum TransactionStatus {
+  DRAFT
+  CART_READY
+  APPROVAL_PENDING
+  APPROVED
+  ORDER_CREATING
+  ORDER_CREATED
+  PAYMENT_PENDING
+  PAYMENT_PROCESSING
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  PAYMENT_UNKNOWN
+}
+
 model Cart {
-  id         String     @id @default(cuid())
-  merchantId String     @default("merchant_demo")
-  status     CartStatus @default(ACTIVE)
-  currency   String     @default("INR")
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  items      CartItem[]
+  id           String       @id @default(cuid())
+  merchantId   String       @default("merchant_demo")
+  status       CartStatus   @default(ACTIVE)
+  currency     String       @default("INR")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  items        CartItem[]
+  transactions Transaction[]
+  auditEvents  AuditEvent[]
 
   @@index([merchantId])
   @@index([status])
@@ -66,4 +82,47 @@ model CartItem {
   @@unique([cartId, productId])
   @@index([cartId])
   @@index([productId])
+}
+
+model Transaction {
+  id         String            @id @default(cuid())
+  cartId     String
+  cart       Cart              @relation(fields: [cartId], references: [id])
+  merchantId String            @default("merchant_demo")
+  status     TransactionStatus @default(DRAFT)
+  currency   String            @default("INR")
+  cartHash   String
+  total      Int // paise
+  snapshot   String // JSON immutable cart snapshot
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  auditEvents AuditEvent[]
+
+  @@unique([cartId, cartHash])
+  @@index([cartId])
+  @@index([merchantId])
+  @@index([status])
+}
+
+model AuditEvent {
+  id                 String            @id @default(cuid())
+  eventType          String
+  transactionId      String?
+  transaction        Transaction?      @relation(fields: [transactionId], references: [id])
+  cartId             String?
+  cart               Cart?             @relation(fields: [cartId], references: [id])
+  requestId          String?
+  timestamp          DateTime          @default(now())
+  fromState          TransactionStatus?
+  toState            TransactionStatus?
+  cartHash           String?
+  policyPassed       Int?
+  policyTotal        Int?
+  isSimulated        Boolean           @default(false)
+  verificationSource String?
+
+  @@index([transactionId])
+  @@index([cartId])
+  @@index([eventType])
 }

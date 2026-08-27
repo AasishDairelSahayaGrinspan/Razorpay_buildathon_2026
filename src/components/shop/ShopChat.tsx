@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,6 @@ function useProducts(ids: string[]) {
     const missing = ids.filter((id) => !map[id]);
     if (missing.length === 0) return;
     let cancelled = false;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     Promise.all(missing.map((id) => fetchProduct(id))).then((results) => {
       if (cancelled) return;
@@ -72,6 +72,53 @@ function CartPanel({
   removeItem: (itemId: string) => Promise<void>;
   clearCart: () => Promise<void>;
 }) {
+  const [approving, setApproving] = React.useState(false);
+  const [approvalError, setApprovalError] = React.useState<string | null>(null);
+  const [approval, setApproval] = React.useState<{ id: string; status: string; cartHash: string; total: number; currency: string } | null>(null);
+  const [policy, setPolicy] = React.useState<{ passed: number; total: number; checks: { id: string; name: string; passed: boolean; message: string }[] } | null>(null);
+
+  const handleApprove = async () => {
+    if (!cart) return;
+    // Do not allow empty or stale hash — fetch fresh server cart first
+    setApproving(true);
+    setApprovalError(null);
+    try {
+      // Always use latest server-backed cart.hash, not potentially stale prop
+      const freshRes = await fetch(`/api/cart/${cart.id}`);
+      if (!freshRes.ok) throw new Error("Failed to load cart");
+      const freshBody = await freshRes.json();
+      const freshCart = freshBody.cart as { id: string; hash: string; items: unknown[] };
+      if (!freshCart?.hash || !freshCart.items || freshCart.items.length === 0) {
+        throw new Error("Cart is empty — add items and wait for cart to update before approving");
+      }
+      if (!freshCart.hash) throw new Error("Cart hash not ready — wait for cart to update");
+      const res = await fetch("/api/approval", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartId: freshCart.id, cartHash: freshCart.hash }),
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        const msg = body?.error?.message ?? "Approval failed";
+        if (body?.policy) setPolicy(body.policy);
+        throw new Error(body?.error?.code === "STALE_CART" ? `Stale cart: ${msg}` : body?.error?.code === "POLICY_FAILED" ? `Policy failed: ${body.policy?.checks?.filter((c: { passed: boolean }) => !c.passed).map((c: { name: string }) => c.name).join(", ")}` : msg);
+      }
+      setApproval(body.transaction);
+      setPolicy(body.policy);
+    } catch (e) {
+      setApprovalError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setApproving(false);
+    }
+  };
+
+  // Reset approval when cart hash changes (cart mutated)
+  React.useEffect(() => {
+    setApproval(null);
+    setPolicy(null);
+    setApprovalError(null);
+  }, [cart?.hash]);
+
   if (!cart) {
     return (
       <Card>
@@ -97,9 +144,34 @@ function CartPanel({
           <div className="rounded-md border border-dashed border-[var(--border)] bg-[#f9fafb] p-4 text-center text-[12px] text-[var(--muted-foreground)]">
             Cart empty — add products from recommendations or browse. Prices are server-authoritative.
           </div>
-          {error ? <p className="text-[12px] text-[#e11d48]">{error}</p> : null}
-          <Button size="lg" className="w-full" disabled>
-            Approve & Pay — Phase 5
+          {(error || approvalError) && <p className="text-[12px] text-[#e11d48]">{error ?? approvalError}</p>}
+          {approval && (
+            <div className="rounded-md border border-[#a7f3d0] bg-[#ecfdf5] p-3">
+              <p className="text-[13px] font-semibold text-[#065f46]">APPROVED</p>
+              <p className="text-[12px] text-[#065f46]">Approved. Ready for checkout.</p>
+              <p className="text-[11px] font-mono break-all text-[#065f46]">Transaction {approval.id.slice(0, 8)} • {approval.status}</p>
+            </div>
+          )}
+          {policy && (
+            <div className="rounded-md border border-[var(--border)] bg-white p-3">
+              <p className="text-[12px] font-medium">Policy: {policy.passed}/{policy.total} passed</p>
+              <ul className="mt-1 text-[11px] leading-4">
+                {policy.checks.map((c) => (
+                  <li key={c.id} className={c.passed ? "text-[#065f46]" : "text-[#e11d48]"}>
+                    {c.passed ? "✓" : "✗"} {c.name}: {c.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <Button
+            size="lg"
+            className="w-full"
+            onClick={handleApprove}
+            loading={approving}
+            disabled={approving || loading || !cart.hash || cart.items.length === 0}
+          >
+            Approve & Pay
           </Button>
           <p className="text-[11px] text-[var(--muted-foreground)]">Cart hash: {cart.hash} • total paise: {cart.totals.total}</p>
         </CardContent>
@@ -169,13 +241,39 @@ function CartPanel({
         </div>
 
         <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1" onClick={() => clearCart()} disabled={loading}>
+          <Button variant="secondary" className="flex-1" onClick={() => clearCart()} disabled={loading || approving}>
             Clear cart
           </Button>
-          <Button size="lg" className="flex-1" disabled>
-            Approve & Pay — Phase 5
+          <Button
+            size="lg"
+            className="flex-1"
+            onClick={handleApprove}
+            loading={approving}
+            disabled={approving || loading || !cart.hash || cart.items.length === 0}
+          >
+            Approve & Pay
           </Button>
         </div>
+        {approvalError && <p className="text-[12px] text-[#e11d48]">{approvalError}</p>}
+        {approval && (
+          <div className="rounded-md border border-[#a7f3d0] bg-[#ecfdf5] p-3">
+            <p className="text-[13px] font-semibold text-[#065f46]">{approval.status}</p>
+            <p className="text-[12px] text-[#065f46]">Approved. Ready for checkout.</p>
+            <p className="text-[11px] font-mono break-all text-[#065f46]">Transaction {approval.id.slice(0, 8)} • {approval.status} • hash {approval.cartHash.slice(0, 8)}</p>
+          </div>
+        )}
+        {policy && (
+          <div className="rounded-md border border-[var(--border)] bg-white p-3">
+            <p className="text-[12px] font-medium">Policy: {policy.passed}/{policy.total} passed</p>
+            <ul className="mt-1 text-[11px] leading-4 max-h-[120px] overflow-y-auto">
+              {policy.checks.map((c) => (
+                <li key={c.id} className={c.passed ? "text-[#065f46]" : "text-[#e11d48]"}>
+                  {c.passed ? "✓" : "✗"} {c.name}: {c.message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
