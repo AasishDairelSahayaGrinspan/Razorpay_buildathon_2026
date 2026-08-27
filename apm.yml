@@ -1,0 +1,15 @@
+name: razorpay_hack
+version: 1.0.0
+description: APM project for razorpay_hack
+author: aasishdairel
+targets:
+- opencode
+dependencies:
+  apm:
+  - mubaidr/gem-team
+  mcp:
+  - io.github.upstash/context7
+  - microsoft/playwright-mcp
+  - io.github.github/github-mcp-server
+includes: auto
+scripts: {}

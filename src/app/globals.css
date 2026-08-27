@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  /* Base */
+  --background: #f8fafc;
+  --foreground: #1a1c1e;
+  --card: #ffffff;
+  --card-foreground: #1a1c1e;
+  --muted: #f3f4f6;
+  --muted-foreground: #5b5f65;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #0b5fff;
+
+  /* Brand — Razorpay inspired, own identity */
+  --primary: #0b5fff;
+  --primary-foreground: #ffffff;
+  --primary-hover: #084dd1;
+  --success: #0ba36a;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --danger: #e11d48;
+
+  /* Sidebar / TopBar */
+  --sidebar: #ffffff;
+  --sidebar-border: #e5e7eb;
+  --topbar: #ffffff;
+  --topbar-border: #e5e7eb;
+  --topbar-pill: #0a0a13;
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadow — soft Razorpay card */
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 4px 12px rgba(16, 24, 40, 0.04);
+  --shadow-card-hover: 0 4px 8px rgba(16, 24, 40, 0.08), 0 8px 24px rgba(16, 24, 40, 0.06);
+  --shadow-button: 0 1px 2px rgba(16, 24, 40, 0.08);
+
+  /* Spacing scale — 4pt */
+  --spacing-page: 24px;
+  --spacing-section: 32px;
+  --sidebar-width: 240px;
+  --topbar-height: 56px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-topbar: var(--topbar);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+}
+
+/* Remove dark mode — light only per spec */
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Focus ring — accessible */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Scrollbar — minimal */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
