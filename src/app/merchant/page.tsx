@@ -35,7 +35,7 @@ export default function MerchantPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-          <Card>
+          <Card className="min-w-0">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Recent orders</CardTitle>

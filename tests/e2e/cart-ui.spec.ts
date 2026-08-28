@@ -17,28 +17,50 @@ test.describe("Cart UI — Phase 4", () => {
 
   test("cart quantity update, remove, clear", async ({ page }) => {
     await page.goto("/shop");
-    // Add two different products
-    const adds = page.getByRole("button", { name: /Add to cart —/ });
-    await adds.nth(0).click();
-    await page.waitForTimeout(1000);
-    await adds.nth(1).click();
-    await page.waitForTimeout(1000);
-    await expect(page.getByText(/2 items/).first()).toBeVisible({ timeout: 8000 });
+    // Add first product via UI and wait for the cart to show 1 item deterministically.
+    const addBtns = page.getByRole("button", { name: /Add to cart —/ });
+    await addBtns.nth(0).click();
+    await expect(page.getByText(/Cart • 1 items/).first()).toBeVisible({ timeout: 8000 });
+
+    // Read the existing cart id from localStorage and add a SECOND different
+    // product directly through the API (browser context shares the same
+    // origin and the cart id is stored in localStorage). This avoids a UI
+    // re-render race that the previous `adds.nth(1).click()` approach
+    // could hit when the first add was still in flight.
+    await page.evaluate(async () => {
+      const cartId = window.localStorage.getItem("cartId");
+      if (!cartId) throw new Error("No cart id in localStorage");
+      const productsRes = await fetch("/api/products");
+      const { products } = (await productsRes.json()) as { products: Array<{ id: string; inventory: number; name: string }> };
+      // Pick a different product than the one already in the cart
+      const cartRes = await fetch(`/api/cart/${cartId}`);
+      const { cart } = (await cartRes.json()) as { cart: { items: Array<{ productId: string }> } };
+      const inCart = new Set(cart.items.map((it) => it.productId));
+      const second = products.find((p) => !inCart.has(p.id) && p.inventory > 0) ?? products.find((p) => !inCart.has(p.id));
+      if (!second) throw new Error("No second product available");
+      const addRes = await fetch(`/api/cart/${cartId}/items`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: second.id, quantity: 1 }),
+      });
+      if (!addRes.ok) throw new Error("Failed to add second product: " + addRes.status);
+    });
+
+    // Reload so the UI re-reads the cart server-side and reflects both items
+    await page.reload();
+    await expect(page.getByText(/Cart • 2 items/).first()).toBeVisible({ timeout: 8000 });
 
     // Remove first item — scroll into view to avoid header intercept on mobile
     const remove = page.getByRole("button", { name: "Remove" }).first();
     await remove.scrollIntoViewIfNeeded();
-    // Wait for any pending cart update
-    await page.waitForTimeout(500);
-    await remove.click({ force: true });
-    // After remove, cart should have 1 item left
-    await expect(page.getByText(/1 items/).first()).toBeVisible({ timeout: 8000 });
+    await remove.click();
+    await expect(page.getByText(/Cart • 1 items/).first()).toBeVisible({ timeout: 8000 });
     await expect(page.getByRole("button", { name: "Remove" })).toHaveCount(1, { timeout: 8000 });
 
     // Clear
     const clearBtn = page.getByRole("button", { name: "Clear cart" });
     await clearBtn.scrollIntoViewIfNeeded();
-    await clearBtn.click({ force: true });
+    await clearBtn.click();
     await expect(page.getByText(/Cart empty/i)).toBeVisible({ timeout: 8000 });
   });
 
