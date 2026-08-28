@@ -19,7 +19,7 @@ test.describe("Approval UI — /shop", () => {
     await expect(page.getByText(/Policy: \d+\/12 passed/)).toBeVisible();
     // Razorpay checkout does NOT start (no redirect, no order creation)
     await expect(page).toHaveURL(/\/shop/);
-    await expect(page.getByText(/Razorpay/).first()).toBeVisible(); // still on shop, not checkout
+    await expect(page.getByText(/Shop with AI/).first()).toBeVisible();
   });
 
   test("double click does not create duplicate approval", async ({ page }) => {

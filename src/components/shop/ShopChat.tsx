@@ -57,6 +57,27 @@ function useProducts(ids: string[]) {
   return { map, loading };
 }
 
+function loadRazorpayScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (typeof window !== "undefined" && (window as unknown as { Razorpay?: unknown }).Razorpay) {
+      resolve();
+      return;
+    }
+    const existing = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+    if (existing) {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("Failed to load Razorpay checkout")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Razorpay checkout"));
+    document.body.appendChild(script);
+  });
+}
+
 function CartPanel({
   cart,
   loading,
@@ -76,6 +97,12 @@ function CartPanel({
   const [approvalError, setApprovalError] = React.useState<string | null>(null);
   const [approval, setApproval] = React.useState<{ id: string; status: string; cartHash: string; total: number; currency: string } | null>(null);
   const [policy, setPolicy] = React.useState<{ passed: number; total: number; checks: { id: string; name: string; passed: boolean; message: string }[] } | null>(null);
+  const [checkoutOrder, setCheckoutOrder] = React.useState<{ transactionId: string; razorpayOrderId: string; amount: number; currency: string; keyId: string } | null>(null);
+  const [checkoutLoading, setCheckoutLoading] = React.useState(false);
+  const [checkoutError, setCheckoutError] = React.useState<string | null>(null);
+  const [verifying, setVerifying] = React.useState(false);
+  const [paymentSuccess, setPaymentSuccess] = React.useState<{ transactionId: string; status: string; razorpayPaymentId: string } | null>(null);
+  const [paymentStatus, setPaymentStatus] = React.useState<string | null>(null);
 
   const handleApprove = async () => {
     if (!cart) return;
@@ -105,6 +132,10 @@ function CartPanel({
       }
       setApproval(body.transaction);
       setPolicy(body.policy);
+      setCheckoutOrder(null);
+      setCheckoutError(null);
+      setPaymentSuccess(null);
+      setPaymentStatus(null);
     } catch (e) {
       setApprovalError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -112,11 +143,91 @@ function CartPanel({
     }
   };
 
-  // Reset approval when cart hash changes (cart mutated)
+  const handleCheckout = async () => {
+    if (!approval) return;
+    setCheckoutLoading(true);
+    setCheckoutError(null);
+    setPaymentSuccess(null);
+    setPaymentStatus(null);
+    try {
+      const res = await fetch("/api/checkout/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transactionId: approval.id }),
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        throw new Error(body?.error?.message ?? "Checkout order failed");
+      }
+      // body contains transactionId, razorpayOrderId, amount, currency, keyId — amount/orderId from server only
+      const orderData = body as { transactionId: string; razorpayOrderId: string; amount: number; currency: string; keyId: string };
+      setCheckoutOrder(orderData);
+
+      await loadRazorpayScript();
+      // Open Razorpay TEST Checkout — amount/orderId must come from server response, never client override
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        order_id: orderData.razorpayOrderId,
+        name: "Nimbus Commerce",
+        description: "Test Payment — do not use real money",
+        notes: { transactionId: orderData.transactionId },
+        handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+          setVerifying(true);
+          setCheckoutError(null);
+          try {
+            const verifyRes = await fetch("/api/checkout/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                transactionId: orderData.transactionId,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              }),
+            });
+            const verifyBody = await verifyRes.json();
+            if (!verifyRes.ok) {
+              throw new Error(verifyBody?.error?.message ?? "Payment verification failed");
+            }
+            // Only after successful SERVER verification show PAYMENT_SUCCESS
+            setPaymentSuccess(verifyBody);
+            setPaymentStatus(verifyBody.status);
+          } catch (e) {
+            setCheckoutError(e instanceof Error ? e.message : String(e));
+            setPaymentStatus("PAYMENT_FAILED");
+          } finally {
+            setVerifying(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setPaymentStatus((prev) => (prev === "PAYMENT_SUCCESS" ? prev : "PAYMENT_UNKNOWN"));
+          },
+        },
+        theme: { color: "#0b5fff" },
+      };
+      const RazorpayCtor = (window as unknown as { Razorpay: new (opts: unknown) => { open: () => void } }).Razorpay;
+      if (!RazorpayCtor) throw new Error("Razorpay not loaded");
+      const rzp = new RazorpayCtor(options);
+      rzp.open();
+    } catch (e) {
+      setCheckoutError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
+
+  // Reset approval/checkout when cart hash changes (cart mutated)
   React.useEffect(() => {
     setApproval(null);
     setPolicy(null);
     setApprovalError(null);
+    setCheckoutOrder(null);
+    setCheckoutError(null);
+    setPaymentSuccess(null);
+    setPaymentStatus(null);
   }, [cart?.hash]);
 
   if (!cart) {
@@ -272,6 +383,46 @@ function CartPanel({
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+        {/* Phase 6 Checkout — visible only after APPROVED, uses server amount/orderId, never client override */}
+        {approval && approval.status === "APPROVED" && !paymentSuccess && (
+          <div className="flex flex-col gap-2 rounded-md border border-[#bfdbfe] bg-[#eff6ff] p-3">
+            <p className="text-[12px] font-medium text-[#1e40af]">Checkout — Razorpay TEST</p>
+            <p className="text-[11px] text-[#1e40af] break-all">Transaction {approval.id.slice(0, 8)} • amount from server after order creation</p>
+            {checkoutOrder && (
+              <div className="rounded-md border border-[var(--border)] bg-white p-2 text-[11px] break-all">
+                <p>Order: <span className="font-mono">{checkoutOrder.razorpayOrderId.slice(0, 16)}…</span></p>
+                <p>Amount: ₹{(checkoutOrder.amount / 100).toLocaleString("en-IN")} • {checkoutOrder.currency}</p>
+                <p>KeyId: <span className="font-mono">{checkoutOrder.keyId.slice(0, 12)}…</span></p>
+              </div>
+            )}
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={handleCheckout}
+              loading={checkoutLoading || verifying}
+              disabled={checkoutLoading || verifying || !approval}
+            >
+              {checkoutOrder ? "Pay with Razorpay" : "Checkout"}
+            </Button>
+            {checkoutError && <p className="text-[11px] text-[#e11d48] break-all">{checkoutError}</p>}
+            {verifying && <p className="text-[11px] text-[#1e40af]">Verifying payment with server…</p>}
+            <p className="text-[10px] text-[var(--muted-foreground)]">Amount and orderId come from server. Browser receives keyId only.</p>
+          </div>
+        )}
+        {paymentSuccess && (
+          <div className="rounded-md border border-[#a7f3d0] bg-[#ecfdf5] p-3">
+            <p className="text-[13px] font-semibold text-[#065f46]">PAYMENT_SUCCESS</p>
+            <p className="text-[12px] text-[#065f46]">Payment verified by server. Order completed.</p>
+            <p className="text-[11px] font-mono break-all text-[#065f46]">Transaction {paymentSuccess.transactionId.slice(0, 8)} • {paymentSuccess.status} • payment {paymentSuccess.razorpayPaymentId.slice(0, 12)}…</p>
+            {checkoutOrder && <p className="text-[11px] text-[#065f46] break-all">Amount ₹{(checkoutOrder.amount / 100).toLocaleString("en-IN")} • {checkoutOrder.currency}</p>}
+          </div>
+        )}
+        {paymentStatus && !paymentSuccess && paymentStatus !== "PAYMENT_SUCCESS" && (
+          <div className="rounded-md border border-[var(--border)] bg-white p-2">
+            <p className="text-[11px] text-[var(--muted-foreground)]">Payment status: {paymentStatus}</p>
+            {checkoutError && <p className="text-[11px] text-[#e11d48] break-all">{checkoutError}</p>}
           </div>
         )}
       </CardContent>

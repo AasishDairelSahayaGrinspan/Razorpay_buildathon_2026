@@ -40,10 +40,10 @@ export const AuditService = {
   },
 
   async listByTransaction(transactionId: string) {
-    return prisma.auditEvent.findMany({ where: { transactionId }, orderBy: { timestamp: "asc" } });
+    return prisma.auditEvent.findMany({ where: { transactionId }, orderBy: [{ timestamp: "asc" }, { id: "asc" }] });
   },
 
   async listByCart(cartId: string) {
-    return prisma.auditEvent.findMany({ where: { cartId }, orderBy: { timestamp: "asc" } });
+    return prisma.auditEvent.findMany({ where: { cartId }, orderBy: [{ timestamp: "asc" }, { id: "asc" }] });
   },
 };

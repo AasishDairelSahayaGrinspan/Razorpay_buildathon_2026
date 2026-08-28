@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { canTransition, transition } from "@/server/transaction/stateMachine";
 
-describe("StateMachine — 11 states, Phase 5 only DRAFT→APPROVED", () => {
+describe("StateMachine — 11 states, Phase 6 APPROVED→ORDER_CREATED→PAYMENT_PENDING", () => {
   it("allows DRAFT → CART_READY", () => {
     expect(canTransition("DRAFT", "CART_READY")).toBe(true);
     expect(() => transition("DRAFT", "CART_READY")).not.toThrow();
@@ -16,9 +16,9 @@ describe("StateMachine — 11 states, Phase 5 only DRAFT→APPROVED", () => {
     expect(canTransition("APPROVED", "PAYMENT_SUCCESS")).toBe(false);
     expect(() => transition("APPROVED", "PAYMENT_SUCCESS")).toThrow(/Invalid transition/);
   });
-  it("rejects APPROVED → ORDER_CREATED", () => {
-    expect(canTransition("APPROVED", "ORDER_CREATED")).toBe(false);
-    expect(() => transition("APPROVED", "ORDER_CREATED")).toThrow();
+  it("allows APPROVED → ORDER_CREATED (Phase 6)", () => {
+    expect(canTransition("APPROVED", "ORDER_CREATED")).toBe(true);
+    expect(() => transition("APPROVED", "ORDER_CREATED")).not.toThrow();
   });
   it("rejects APPROVED → ORDER_CREATING", () => {
     expect(canTransition("APPROVED", "ORDER_CREATING")).toBe(false);

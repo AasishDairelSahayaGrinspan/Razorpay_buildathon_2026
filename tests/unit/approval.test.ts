@@ -76,10 +76,10 @@ describe("ApprovalService — idempotency, hash, state", () => {
     await prisma.product.update({ where: { id: prod.id }, data: { price: originalPrice } });
   });
 
-  it("APPROVED cannot transition to PAYMENT_SUCCESS (state machine)", async () => {
+  it("APPROVED cannot transition to PAYMENT_SUCCESS but Phase 6 allows APPROVED→ORDER_CREATED", async () => {
     const { transition } = await import("@/server/transaction/stateMachine");
     expect(() => transition("APPROVED", "PAYMENT_SUCCESS")).toThrow(/Invalid transition/);
-    expect(() => transition("APPROVED", "ORDER_CREATED")).toThrow();
+    expect(() => transition("APPROVED", "ORDER_CREATED")).not.toThrow();
     expect(() => transition("APPROVED", "ORDER_CREATING")).toThrow();
   });
 

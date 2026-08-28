@@ -11,16 +11,15 @@ export type TransactionStatus =
   | "PAYMENT_FAILED"
   | "PAYMENT_UNKNOWN";
 
-// All 11 states exist in schema, but Phase 5 only allows first four transitions.
-// Later states are defined but rejected until Phase 6.
+// Phase 6: full 11-state machine
 const ALLOWED_TRANSITIONS: Record<TransactionStatus, TransactionStatus[]> = {
   DRAFT: ["CART_READY"],
   CART_READY: ["APPROVAL_PENDING"],
   APPROVAL_PENDING: ["APPROVED"],
-  APPROVED: [], // Phase 5 STOP — later transitions rejected
+  APPROVED: ["ORDER_CREATED"],
   ORDER_CREATING: ["ORDER_CREATED"],
   ORDER_CREATED: ["PAYMENT_PENDING"],
-  PAYMENT_PENDING: ["PAYMENT_PROCESSING"],
+  PAYMENT_PENDING: ["PAYMENT_PROCESSING", "PAYMENT_FAILED", "PAYMENT_UNKNOWN"],
   PAYMENT_PROCESSING: ["PAYMENT_SUCCESS", "PAYMENT_FAILED", "PAYMENT_UNKNOWN"],
   PAYMENT_SUCCESS: [],
   PAYMENT_FAILED: [],

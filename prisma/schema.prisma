@@ -85,17 +85,20 @@ model CartItem {
 }
 
 model Transaction {
-  id         String            @id @default(cuid())
-  cartId     String
-  cart       Cart              @relation(fields: [cartId], references: [id])
-  merchantId String            @default("merchant_demo")
-  status     TransactionStatus @default(DRAFT)
-  currency   String            @default("INR")
-  cartHash   String
-  total      Int // paise
-  snapshot   String // JSON immutable cart snapshot
-  createdAt  DateTime          @default(now())
-  updatedAt  DateTime          @updatedAt
+  id                 String            @id @default(cuid())
+  cartId             String
+  cart               Cart              @relation(fields: [cartId], references: [id])
+  merchantId         String            @default("merchant_demo")
+  status             TransactionStatus @default(DRAFT)
+  currency           String            @default("INR")
+  cartHash           String
+  total              Int // paise
+  snapshot           String // JSON immutable cart snapshot
+  razorpayOrderId    String?           @unique
+  razorpayPaymentId  String?           @unique
+  paymentStatus      String? // e.g. created, authorized, captured, failed
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
 
   auditEvents AuditEvent[]
 
@@ -103,6 +106,7 @@ model Transaction {
   @@index([cartId])
   @@index([merchantId])
   @@index([status])
+  @@index([razorpayOrderId])
 }
 
 model AuditEvent {
