@@ -60,7 +60,7 @@ export default async function PaymentsPage() {
           <Card className="p-6">
             <EmptyState
               title="No payments yet"
-              description="Payments verified via HMAC sha256. States: PAYMENT_PENDING → PAYMENT_PROCESSING → PAYMENT_SUCCESS|PAYMENT_FAILED|PAYMENT_UNKNOWN. Webhook audit-only until Phase 9."
+              description="Server-authoritative payment state. PAYMENT_PENDING → PAYMENT_PROCESSING → PAYMENT_SUCCESS|PAYMENT_FAILED|PAYMENT_UNKNOWN. Verify via HMAC SHA256. Webhook handles payment.failed. UNKNOWN never auto-converts to SUCCESS."
             />
           </Card>
         ) : (

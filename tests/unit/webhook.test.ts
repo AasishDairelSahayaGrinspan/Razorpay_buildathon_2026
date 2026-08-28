@@ -112,7 +112,7 @@ describe("Webhook — Phase 7", () => {
     const audits = await prisma.auditEvent.findMany({ where: { transactionId: transaction.id, eventType: "WEBHOOK_VERIFIED" } });
     expect(audits.length).toBeGreaterThanOrEqual(1);
     const last = audits[audits.length - 1];
-    expect(last.verificationSource).toBe(`webhook_${payload.event}`);
+    expect(last.verificationSource).toMatch(/^webhook_payment\.captured(:captured)?$/);
     expect(last.transactionId).toBe(transaction.id);
     // fromState/toState should equal current status (audit-only, no transition)
     // For PAYMENT_PENDING, fromState should be PAYMENT_PENDING

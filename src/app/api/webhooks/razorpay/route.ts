@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { AuditService } from "@/server/audit/service";
+import { CheckoutService } from "@/server/checkout/service";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,6 @@ function verifyWebhookSignature(rawBody: string, signature: string, secret: stri
 export async function POST(request: Request) {
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
   if (!secret) {
-    // In TEST mode without webhook secret configured, fail closed — do not process unverified
     return NextResponse.json(
       { error: { code: "WEBHOOK_SECRET_MISSING", message: "Webhook secret not configured" } },
       { status: 500 }
@@ -58,11 +58,11 @@ export async function POST(request: Request) {
   }
 
   const payload = body as Record<string, unknown>;
-  // Razorpay webhook structure varies by event; try common paths
-  // Typical: { event: "payment.captured", payload: { payment: { entity: { id, order_id } }, order: { entity: { id } } } }
-  // Fallback: extract order_id/payment_id from various places
   let razorpayOrderId: string | null = null;
   let razorpayPaymentId: string | null = null;
+  // payment entity status (e.g. "captured", "failed", "authorized") — informational only
+  let paymentEntityStatus: string | null = null;
+  // amount/currency from webhook are NEVER trusted for state — read for context only
   const eventType = (payload.event as string) ?? "unknown";
 
   try {
@@ -74,6 +74,7 @@ export async function POST(request: Request) {
       const orderEntity = order?.entity as Record<string, unknown> | undefined;
       razorpayOrderId = (paymentEntity?.order_id as string) ?? (orderEntity?.id as string) ?? null;
       razorpayPaymentId = (paymentEntity?.id as string) ?? null;
+      if (paymentEntity?.status) paymentEntityStatus = String(paymentEntity.status);
     }
     // Alternative flat structure
     if (!razorpayOrderId) {
@@ -82,14 +83,12 @@ export async function POST(request: Request) {
     if (!razorpayPaymentId) {
       razorpayPaymentId = (payload.payment_id as string) ?? (payload.razorpayPaymentId as string) ?? null;
     }
-    // If payload is payment entity directly
-    if (!razorpayOrderId && payload.order_id) razorpayOrderId = payload.order_id as string;
+    if (!paymentEntityStatus && payload.status) paymentEntityStatus = String(payload.status);
   } catch {
     // ignore extraction errors
   }
 
   if (!razorpayOrderId) {
-    // No order to correlate — still acknowledge but audit
     await AuditService.log({
       eventType: "WEBHOOK_RECEIVED_NO_ORDER",
       isSimulated: false,
@@ -112,7 +111,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, message: "Order not found" }, { status: 200 });
   }
 
-  // Idempotent handling — duplicate delivery
+  // Always log the verified receipt first — even before state checks.
+  // Use paymentEntityStatus as a free-form reason (no secrets here).
+  await AuditService.log({
+    eventType: "WEBHOOK_VERIFIED",
+    transactionId: txn.id,
+    cartId: txn.cartId,
+    fromState: txn.status as unknown as string as never,
+    toState: txn.status as unknown as string as never,
+    cartHash: txn.cartHash,
+    isSimulated: false,
+    verificationSource: `webhook_${eventType}${paymentEntityStatus ? `:${paymentEntityStatus}` : ""}`,
+  });
+
+  // Idempotent handling — duplicate delivery on PAYMENT_SUCCESS
   if (txn.status === "PAYMENT_SUCCESS") {
     await AuditService.log({
       eventType: "WEBHOOK_IDEMPOTENT_SUCCESS",
@@ -127,28 +139,43 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, idempotent: true, transactionId: txn.id }, { status: 200 });
   }
 
-  // Never trust webhook amount — amount is not used. Just audit the verified event.
-  // Do not implement refunds/subscriptions/captures per Phase 6 spec.
-  // For Phase 6, webhook is audit-only; state transitions happen via verifyPayment flow.
-  // If webhook indicates payment captured but local is still pending, we still just audit and idempotently note.
-  // Optionally, if txn is PAYMENT_PENDING/PROCESSING and event is payment.captured, we could mark processing, but keep as audit-only to avoid Phase 7 logic.
+  // Phase 9: payment.failed webhook handling
+  // Transitions to PAYMENT_FAILED via CheckoutService.recordPaymentFailure
+  // which guards against:
+  //   - downgrading PAYMENT_SUCCESS (eventType alone never wins)
+  //   - replay on PAYMENT_FAILED (idempotent)
+  //   - invalid state transitions
+  if (eventType === "payment.failed" || paymentEntityStatus === "failed") {
+    const reason = razorpayPaymentId
+      ? `razorpay_payment_failed:${razorpayPaymentId}`
+      : "razorpay_payment_failed";
+    const result = await CheckoutService.recordPaymentFailure({
+      transactionId: txn.id,
+      source: "payment_failed_webhook",
+      reason,
+    });
+    if (result.status === "PAYMENT_SUCCESS") {
+      // Defensive: webhook must never downgrade — already audited inside service
+      return NextResponse.json(
+        { ok: false, error: { code: "WEBHOOK_CANNOT_DOWNGRADE_SUCCESS", message: "Webhook cannot downgrade PAYMENT_SUCCESS" } },
+        { status: 409 }
+      );
+    }
+    return NextResponse.json(
+      {
+        ok: true,
+        transactionId: txn.id,
+        status: result.status,
+        transitioned: result.transitioned,
+        event: eventType,
+      },
+      { status: 200 }
+    );
+  }
 
-  await AuditService.log({
-    eventType: "WEBHOOK_VERIFIED",
-    transactionId: txn.id,
-    cartId: txn.cartId,
-    fromState: txn.status as unknown as string as never,
-    toState: txn.status as unknown as string as never,
-    cartHash: txn.cartHash,
-    isSimulated: false,
-    verificationSource: `webhook_${eventType}`,
-  });
-
-  // Also log receipt without changing state — webhook is not authoritative for amount/status beyond audit
-  // If you want to record paymentId from webhook without trusting it for success, you could store but not transition.
-  // We will NOT auto-transition to PAYMENT_SUCCESS via webhook — that is verifyPayment's job.
-  // This keeps webhook idempotent and safe.
-
+  // Phase 9: payment.captured / payment.authorized are still audit-only.
+  // Status transition is the verifyPayment flow's job (HMAC-verified).
+  // Webhook amount is NEVER authoritative.
   return NextResponse.json({ ok: true, transactionId: txn.id, event: eventType }, { status: 200 });
 }
 
