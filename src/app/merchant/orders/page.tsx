@@ -38,7 +38,7 @@ export default async function OrdersPage() {
     <div className="flex flex-col">
       <PageHeader
         title="Orders"
-        description="Immutable checkout snapshots, cart hash, idempotencyKey. 11-state machine."
+        description="All transaction states, ordered by createdAt desc. Server snapshot + cartHash preserved."
         breadcrumbs={["Merchant", "Orders"]}
         actions={<Badge variant="neutral">{transactions.length} transactions</Badge>}
       />

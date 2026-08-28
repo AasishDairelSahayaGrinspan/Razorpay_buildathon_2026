@@ -87,8 +87,7 @@ test.describe("Phase 10 — Mobile behavior", () => {
     test.use({ viewport: PHONE_VIEWPORT });
 
     test("mobile: hamburger menu opens, navigates to /shop", async ({ page }) => {
-      await page.goto("/");
-      // / redirects to /shop
+      await page.goto("/shop");
       await expect(page).toHaveURL(/\/shop/);
       // Open hamburger
       const menuBtn = page.getByLabel("Open menu");
@@ -103,11 +102,12 @@ test.describe("Phase 10 — Mobile behavior", () => {
       const input = page.getByPlaceholder(/e\.g\. headphones under/i);
       await expect(input).toBeVisible();
       await input.fill("wireless keyboard");
-      const ask = page.getByRole("button", { name: "Ask" });
+      const ask = page.getByRole("button", { name: "Send" });
       await expect(ask).toBeEnabled();
       await ask.click();
-      // Wait for any agent response (recommendation or "no match")
-      await page.waitForTimeout(3000);
+      // Wait for an assistant reply to arrive
+      await expect(page.getByTestId("chat-thinking")).toHaveCount(0, { timeout: 15000 }).catch(() => {});
+      await expect(page.getByTestId("chat-msg-assistant").last()).toBeVisible({ timeout: 15000 });
       // Cart still empty
       await expect(page.getByText(/Your Cart • 0 items|Cart empty/i).first()).toBeVisible();
     });

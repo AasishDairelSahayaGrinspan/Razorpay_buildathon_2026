@@ -4,7 +4,9 @@ import { PrismaClient } from "../src/generated/prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Clear existing (cart first due to FK)
+  // Clear in FK order: audit → transaction → cartItem → cart → product
+  await prisma.auditEvent.deleteMany({});
+  await prisma.transaction.deleteMany({});
   await prisma.cartItem.deleteMany({});
   await prisma.cart.deleteMany({});
   await prisma.product.deleteMany({});
@@ -20,7 +22,7 @@ async function main() {
       active: true,
       tags: "headphones, anc, wfh, work, noise cancellation",
       features: JSON.stringify(["ANC", "40h battery", "Beamforming mics", "Bluetooth 5.3"]),
-      image: "/products/headphones-anc.jpg",
+      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Headphones — Lite Comfort",
@@ -32,7 +34,7 @@ async function main() {
       active: true,
       tags: "headphones, lightweight, comfort",
       features: JSON.stringify(["30h battery", "Lightweight", "On-ear"]),
-      image: "/products/headphones-lite.jpg",
+      image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "USB Microphone — Studio Mini",
@@ -44,7 +46,7 @@ async function main() {
       active: true,
       tags: "microphone, usb, calls, wfh",
       features: JSON.stringify(["Cardioid", "USB-C", "Noise gate"]),
-      image: "/products/mic-usb.jpg",
+      image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Webcam — HD Pro 1080p",
@@ -56,7 +58,7 @@ async function main() {
       active: true,
       tags: "webcam, video, wfh, hd",
       features: JSON.stringify(["1080p", "Auto-focus", "Privacy shutter"]),
-      image: "/products/webcam-hd.jpg",
+      image: "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Keyboard — Mechanical Compact",
@@ -68,7 +70,7 @@ async function main() {
       active: true,
       tags: "keyboard, mechanical, compact, wfh",
       features: JSON.stringify(["75%", "Tactile", "Bluetooth", "USB-C"]),
-      image: "/products/keyboard.jpg",
+      image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Mouse — Ergonomic Wireless",
@@ -80,7 +82,7 @@ async function main() {
       active: true,
       tags: "mouse, wireless, ergonomic",
       features: JSON.stringify(["Ergonomic", "Silent clicks", "Wireless"]),
-      image: "/products/mouse.jpg",
+      image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Laptop Stand — Aluminum Adjustable",
@@ -92,7 +94,7 @@ async function main() {
       active: true,
       tags: "stand, laptop, ergonomics, wfh",
       features: JSON.stringify(["Aluminum", "6 angles", "Foldable"]),
-      image: "/products/stand.jpg",
+      image: "https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "USB-C Hub — 7-in-1",
@@ -104,7 +106,7 @@ async function main() {
       active: true,
       tags: "hub, usb-c, connectivity, hdmi",
       features: JSON.stringify(["7 ports", "HDMI 4K", "PD 100W"]),
-      image: "/products/hub.jpg",
+      image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Webcam Cover — Inactive Demo",
@@ -116,7 +118,7 @@ async function main() {
       active: false,
       tags: "inactive, demo",
       features: JSON.stringify([]),
-      image: "/products/cover.jpg",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80&auto=format&fit=crop",
     },
   ];
 

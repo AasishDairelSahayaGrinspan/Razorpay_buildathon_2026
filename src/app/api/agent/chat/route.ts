@@ -9,7 +9,10 @@ const MAX_MESSAGE_LEN = 1000;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MAX_CONVERSATION_LEN = 20; // not storing history in Phase 3, just validate
 const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 20;
+// Production guard stays strict (20/min). In local dev the whole parallel E2E
+// suite shares one IP key ("unknown" — no x-forwarded-for locally), so a much
+// higher ceiling keeps the suite deterministic without disabling the guard.
+const RATE_LIMIT_MAX = process.env.NODE_ENV === "production" ? 20 : 1000;
 
 // Simple in-memory rate limit (per IP, for Phase 3 demo)
 const hits = new Map<string, { count: number; resetAt: number }>();
@@ -77,6 +80,9 @@ export async function POST(request: Request) {
           requestId: result.requestId,
           toolsUsed: result.toolsUsed,
           latencyMs: result.latencyMs,
+          // Phase 12: signal which reasoning layer produced the response.
+          // Never includes secrets. Always one of: "groq" | "heuristic" | "fallback-injection" | "error"
+          llm: result.llm,
         },
       },
       { status: 200 }

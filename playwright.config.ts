@@ -2,7 +2,11 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  // Default to 2 workers: balances speed against shared dev server / SQLite /
+  // Razorpay TEST API contention. Override with --workers=N. CI gets retries
+  // for any residual infra flakes.
   fullyParallel: true,
+  workers: process.env.CI ? 2 : 2,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }]],

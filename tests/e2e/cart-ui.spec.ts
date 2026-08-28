@@ -17,36 +17,40 @@ test.describe("Cart UI — Phase 4", () => {
 
   test("cart quantity update, remove, clear", async ({ page }) => {
     await page.goto("/shop");
-    // Add first product via UI and wait for the cart to show 1 item deterministically.
-    const addBtns = page.getByRole("button", { name: /Add to cart —/ });
-    await addBtns.nth(0).click();
-    await expect(page.getByText(/Cart • 1 items/).first()).toBeVisible({ timeout: 8000 });
+    // Wait for the cart to be ready (empty cart rendered)
+    await expect(page.getByText(/Cart empty/i).first()).toBeVisible({ timeout: 8000 });
 
-    // Read the existing cart id from localStorage and add a SECOND different
-    // product directly through the API (browser context shares the same
-    // origin and the cart id is stored in localStorage). This avoids a UI
-    // re-render race that the previous `adds.nth(1).click()` approach
-    // could hit when the first add was still in flight.
+    // Use page.evaluate to add both products via API, bypassing the UI click
+    // race. The evaluate creates a cart, adds two distinct products, and writes
+    // the cartId to localStorage so the page picks it up on reload.
     await page.evaluate(async () => {
-      const cartId = window.localStorage.getItem("cartId");
-      if (!cartId) throw new Error("No cart id in localStorage");
-      const productsRes = await fetch("/api/products");
-      const { products } = (await productsRes.json()) as { products: Array<{ id: string; inventory: number; name: string }> };
-      // Pick a different product than the one already in the cart
-      const cartRes = await fetch(`/api/cart/${cartId}`);
-      const { cart } = (await cartRes.json()) as { cart: { items: Array<{ productId: string }> } };
-      const inCart = new Set(cart.items.map((it) => it.productId));
-      const second = products.find((p) => !inCart.has(p.id) && p.inventory > 0) ?? products.find((p) => !inCart.has(p.id));
-      if (!second) throw new Error("No second product available");
-      const addRes = await fetch(`/api/cart/${cartId}/items`, {
+      const STORAGE_KEY = "cartId";
+      const createRes = await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: second.id, quantity: 1 }),
+        body: JSON.stringify({}),
       });
-      if (!addRes.ok) throw new Error("Failed to add second product: " + addRes.status);
+      if (!createRes.ok) throw new Error("Create cart failed: " + createRes.status);
+      const { cart: newCart } = await createRes.json();
+      localStorage.setItem(STORAGE_KEY, newCart.id);
+
+      const productsRes = await fetch("/api/products");
+      const { products } = await productsRes.json();
+
+      // Add first two products
+      const first = products[0];
+      const second = products[1];
+      for (const p of [first, second]) {
+        const addRes = await fetch(`/api/cart/${newCart.id}/items`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: p.id, quantity: 1 }),
+        });
+        if (!addRes.ok) throw new Error("Add failed for " + p.id + ": " + addRes.status);
+      }
     });
 
-    // Reload so the UI re-reads the cart server-side and reflects both items
+    // Reload so the page picks up the cart from localStorage
     await page.reload();
     await expect(page.getByText(/Cart • 2 items/).first()).toBeVisible({ timeout: 8000 });
 

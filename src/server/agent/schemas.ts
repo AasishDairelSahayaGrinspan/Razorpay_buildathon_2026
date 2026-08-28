@@ -85,6 +85,41 @@ export const ChatRequest = z.object({
   conversationId: z.string().trim().max(100).optional().default("default"),
 });
 
+// ── Phase 12: Groq structured shopping intent ──
+// What the LLM is allowed to say. We deliberately exclude: price, total,
+// productId, inventory, payment status, secret-ish fields. The model only
+// expresses user intent and natural-language response; product resolution is
+// always server-driven against the real catalog.
+
+export const ShoppingIntentSchema = z.object({
+  intent: z.enum(["product_search", "clarification", "general", "followup"]),
+  query: z.string().max(200).default(""),
+  // We deliberately allow very large budgetMax from the LLM and clamp at the
+  // agent layer (see agent.ts) so Zod never drops a valid conversational
+  // response on a numeric edge case.
+  budgetMax: z.number().int().min(0).max(1_000_000_000).nullable().default(null),
+  preferences: z.array(z.string().min(1).max(80)).max(8).default([]),
+  category: z.string().max(50).nullable().default(null),
+  needsClarification: z.boolean().default(false),
+  clarificationQuestion: z.string().max(200).default(""),
+  response: z.string().min(1).max(800),
+});
+export type ShoppingIntent = z.infer<typeof ShoppingIntentSchema>;
+
+// ── Phase 12: resolved recommendation (after server-side grounding) ──
+
+export const ResolvedRecommendationSchema = z.object({
+  productId: z.string(),
+  name: z.string(),
+  category: z.string(),
+  price: z.number().int(), // paise, server authoritative
+  currency: z.string().default("INR"),
+  available: z.boolean(),
+  reason: z.string().min(1).max(300),
+  confidence: z.enum(["low", "medium", "high"]),
+});
+export type ResolvedRecommendation = z.infer<typeof ResolvedRecommendationSchema>;
+
 export const ChatResponse = z.object({
   conversationId: z.string(),
   reply: AgentResponse,

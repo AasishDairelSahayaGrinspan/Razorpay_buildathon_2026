@@ -14,6 +14,7 @@ const merchantNav: NavItem[] = [
 ];
 
 const shopNav: NavItem[] = [
+  { label: "Home", href: "/", icon: "⌂" },
   { label: "AI Commerce", href: "/shop", icon: "✦" },
 ];
 
@@ -87,7 +88,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
 
           <div className="rounded-[12px] border border-[var(--border)] bg-[#f8fafc] p-3">
             <p className="text-[12px] font-semibold">AI Growth</p>
-            <p className="mt-1 text-[12px] leading-4 text-[var(--muted-foreground)]">Track conversion and AOV uplift — coming in Phase 8</p>
+            <p className="mt-1 text-[12px] leading-4 text-[var(--muted-foreground)]">Conversational agent with read-only catalog tools</p>
           </div>
         </nav>
 

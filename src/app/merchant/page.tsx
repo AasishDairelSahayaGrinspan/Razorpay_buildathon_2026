@@ -4,8 +4,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CatalogService } from "@/server/catalog";
 
-export default function MerchantPage() {
+export const dynamic = "force-dynamic";
+
+export default async function MerchantPage() {
+  let productCount = 0;
+  try {
+    productCount = (await CatalogService.listProducts({ activeOnly: false })).length;
+  } catch {
+    productCount = 0;
+  }
+
   return (
     <div className="flex flex-col">
       <PageHeader
@@ -13,15 +23,15 @@ export default function MerchantPage() {
         description="Manage catalog, prices, inventory, policies. See AI recommendations, orders, payments and audit trail."
         breadcrumbs={["Merchant", "Overview"]}
         badge="Overview"
-        actions={<Button size="sm">Add product — Phase 2</Button>}
+        actions={<Button size="sm" disabled>Add product — later</Button>}
       />
       <div className="mx-auto w-full max-w-[1280px] p-6 lg:p-8 flex flex-col gap-6">
         {/* KPI row — Razorpay-style */}
         <div className="grid gap-4 md:grid-cols-4">
           {[
-            { label: "Products", value: "—", sub: "Phase 2 seed" },
-            { label: "Orders today", value: "—", sub: "Real metrics later" },
-            { label: "Conversion", value: "—", sub: "AI Growth Phase 8" },
+            { label: "Products", value: String(productCount), sub: "Seeded catalog" },
+            { label: "Orders today", value: "—", sub: "After checkout flow" },
+            { label: "Conversion", value: "—", sub: "AI Growth track" },
             { label: "AOV", value: "₹ —", sub: "Avg order value" },
           ].map((k) => (
             <Card key={k.label}>
@@ -86,9 +96,9 @@ export default function MerchantPage() {
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
                 <div className="h-1.5 w-full rounded-full bg-[#f3f4f6] overflow-hidden">
-                  <div className="h-full bg-[var(--primary)] w-[1/4]" style={{ width: "33%" }} />
+                  <div className="h-full bg-[#0ba36a]" style={{ width: "100%" }} />
                 </div>
-                <p className="text-[12px] text-[var(--muted-foreground)]">1/3 — Shell complete. Next: catalog + agent.</p>
+                <p className="text-[12px] text-[var(--muted-foreground)]">Complete — AI agent, cart, approval, Razorpay TEST checkout, webhooks, audit trail.</p>
                 <Button size="sm" variant="secondary" disabled>
                   Set up payments — Phase 2
                 </Button>

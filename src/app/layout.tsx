@@ -14,8 +14,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nimbus Commerce — AI Growth & Agentic Commerce",
-  description: "AI-powered commerce platform: merchant catalog + AI buyer with Razorpay Test Mode. Agentic Commerce Track 1.",
+  title: {
+    default: "Nimbus Commerce — AI-powered shopping with Razorpay Test Mode",
+    template: "%s — Nimbus Commerce",
+  },
+  description:
+    "A demo of agentic commerce: a conversational AI shopping assistant, deterministic server pricing, approval workflow, policy checks, Razorpay TEST checkout, HMAC payment verification, webhooks, and an immutable audit trail.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Nimbus Commerce — AI-powered shopping",
+    description:
+      "Conversational AI shopping assistant with deterministic server pricing and a Razorpay TEST checkout flow.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

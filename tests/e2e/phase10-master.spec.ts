@@ -294,7 +294,7 @@ test.describe("Phase 10 — Master happy-path E2E (Razorpay mock at browser boun
     await page.goto("/shop");
     // Have a real conversation with a specific budget so the agent finds products
     await page.getByPlaceholder(/e\.g\. headphones under/i).fill("I need headphones for working from home under 5000.");
-    await page.getByRole("button", { name: "Ask" }).click();
+    await page.getByRole("button", { name: "Send" }).click();
     // Wait for any assistant reply (recommendation or upsell) — agent does not have to match exact format
     await expect(page.getByText(/Headphones — ANC WFH Pro|Found|recommend|option\(s\)/i).first()).toBeVisible({ timeout: 15000 });
     // No checkout call should have been made by the agent

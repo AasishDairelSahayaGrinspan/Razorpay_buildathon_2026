@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Phase 3 — Shop & Catalog (with Agent)", () => {
-  test("redirects / to /shop", async ({ page }) => {
+  test("landing page renders with Shop with AI CTA", async ({ page }) => {
     await page.goto("/");
+    await expect(page.getByRole("heading", { name: /Shopping, guided by AI/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Shop with AI" }).first()).toBeVisible();
+    await page.getByRole("link", { name: "Shop with AI" }).first().click();
     await expect(page).toHaveURL(/\/shop/);
   });
 
@@ -10,7 +13,7 @@ test.describe("Phase 3 — Shop & Catalog (with Agent)", () => {
     await page.goto("/shop");
     await expect(page.getByRole("heading", { name: /AI Commerce/i })).toBeVisible();
     await expect(page.getByPlaceholder(/e\.g\. headphones under/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: "Ask" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Send" })).toBeVisible();
     await expect(page.getByText(/recommendation-only agent/i).first()).toBeVisible();
   });
 
@@ -74,7 +77,7 @@ test.describe("Phase 3 — Shop & Catalog (with Agent)", () => {
   });
 
   test("no horizontal overflow on desktop and mobile", async ({ page }) => {
-    for (const path of ["/shop", "/merchant/products"]) {
+    for (const path of ["/", "/shop", "/merchant/products"]) {
       await page.goto(path);
       const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
       const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);

@@ -21,7 +21,7 @@ export default async function ShopPage() {
       <PageHeader
         title="AI Commerce"
         description="Recommendation-only agent: natural language → explainable catalog picks. Prices server-authoritative, no payment until explicit approval."
-        badge="Phase 3"
+        badge="AI Agent"
         breadcrumbs={["Shop", "AI Commerce"]}
         actions={
           <>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -5,6 +6,39 @@ import type { ApiProduct } from "@/server/catalog";
 
 function formatPrice(paise: number) {
   return `₹${(paise / 100).toLocaleString("en-IN")}`;
+}
+
+function ProductImage({ product }: { product: ApiProduct }) {
+  const [failed, setFailed] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
+
+  if (!product.image || failed) {
+    return (
+      <span className="flex h-full w-full flex-col items-center justify-center gap-1 px-3 text-center text-[12px] text-[var(--muted-foreground)]">
+        <span className="text-[28px] leading-none text-[#c7ccd4]">◆</span>
+        <span>{product.name}</span>
+      </span>
+    );
+  }
+
+  return (
+    <div className="relative h-full w-full">
+      {!loaded ? (
+        <span className="absolute inset-0 flex items-center justify-center text-[12px] text-[var(--muted-foreground)]">
+          Loading…
+        </span>
+      ) : null}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={product.image}
+        alt={product.name}
+        className={`h-full w-full object-cover transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
 }
 
 export function ProductCard({
@@ -24,13 +58,11 @@ export function ProductCard({
   return (
     <Card hover={!isInactive} className={isInactive ? "opacity-60" : ""}>
       <CardContent className="p-0">
-        <div className="h-[140px] rounded-t-[12px] bg-[#f3f4f6] flex flex-col items-center justify-center gap-1 border-b border-[var(--border)] overflow-hidden">
-          {product.image ? (
-            <div className="text-[11px] text-[var(--muted-foreground)] px-3 text-center break-all">{product.image}</div>
-          ) : (
-            <span className="text-[12px] text-[var(--muted-foreground)]">No image</span>
-          )}
-          <span className="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)]">{product.category}</span>
+        <div className="relative h-[140px] overflow-hidden rounded-t-[12px] border-b border-[var(--border)] bg-[#f3f4f6]">
+          <ProductImage product={product} />
+          <span className="absolute bottom-2 left-2 rounded-full bg-[#0a0a13]/70 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white">
+            {product.category}
+          </span>
         </div>
         <div className="p-4 flex flex-col gap-2">
           <div className="flex items-start justify-between gap-2">
