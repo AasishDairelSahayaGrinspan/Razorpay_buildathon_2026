@@ -8,6 +8,12 @@ The project demonstrates a realistic separation of concerns: the AI agent is del
 
 This is a Razorpay TEST-mode demonstration, not a production payment deployment. No real money is processed.
 
+## Live Demo
+
+Watch the 5-minute walkthrough and explore the showcase:
+
+- **Demo video:** https://aasishdairelsahayagrinspan.github.io/Razorpay_buildathon_2026/#demo
+
 ## Features
 
 - **AI shopping assistant** — a conversational agent (powered by Groq) that understands natural-language requests, remembers context within a chat, and recommends products with explainable reasons.
