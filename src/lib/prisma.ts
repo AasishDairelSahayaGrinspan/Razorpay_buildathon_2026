@@ -19,7 +19,10 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
+    // Errors are still thrown and handled by the app (e.g. P2002 idempotency
+    // races in approval are caught and resolved). Disabling Prisma's own
+    // console logging avoids flooding the terminal with handled errors.
+    log: [],
   });
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
