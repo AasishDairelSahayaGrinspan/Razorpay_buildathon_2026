@@ -1,0 +1,60 @@
+name: Deploy Showcase to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/showcase/**"
+      - ".github/workflows/showcase-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-showcase
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: docs/showcase/package-lock.json
+
+      - name: Install dependencies
+        working-directory: docs/showcase
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: docs/showcase
+        run: npm run typecheck
+
+      - name: Build static site
+        working-directory: docs/showcase
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/showcase/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

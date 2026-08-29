@@ -1,0 +1,1656 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nimbus Commerce | AI-Powered Commerce with Razorpay</title>
+    <meta
+      name="description"
+      content="An AI-powered commerce platform combining conversational shopping, deterministic pricing, secure Razorpay payments, verified webhooks, and a complete transaction audit trail."
+    />
+    <meta name="author" content="Nimbus Commerce — Razorpay Buildathon 2026" />
+    <meta name="theme-color" content="#0B0B0F" />
+    <link rel="canonical" href="https://github.com/AasishDairelSahayaGrinspan/Razorpay_buildathon_2026" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nimbus Commerce" />
+    <meta property="og:title" content="Nimbus Commerce | AI-Powered Commerce with Razorpay" />
+    <meta
+      property="og:description"
+      content="Conversational AI shopping with deterministic pricing, secure Razorpay payments, and a complete transaction audit trail. Razorpay Buildathon 2026."
+    />
+    <meta property="og:url" content="https://github.com/AasishDairelSahayaGrinspan/Razorpay_buildathon_2026" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nimbus Commerce | AI-Powered Commerce with Razorpay" />
+    <meta
+      name="twitter:description"
+      content="Conversational AI shopping with deterministic pricing, secure Razorpay payments, and a complete transaction audit trail."
+    />
+
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============================== NAV ============================== -->
+    <header class="site-nav" data-nav>
+      <nav class="nav-inner" aria-label="Primary">
+        <a class="brand" href="#home" aria-label="Nimbus Commerce home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="20" height="20" fill="none">
+              <path d="M6 8h20M6 16h20M6 24h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <circle cx="25" cy="24" r="3" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="brand-name">Nimbus Commerce</span>
+          <span class="brand-badge">Buildathon 2026</span>
+        </a>
+
+        <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="menu" id="menu" data-menu>
+          <a class="menu-link" href="#problem">Problem</a>
+          <a class="menu-link" href="#features">Features</a>
+          <a class="menu-link" href="#architecture">Architecture</a>
+          <a class="menu-link" href="#security-by-design">Security</a>
+          <a class="menu-link" href="#testing">Testing</a>
+          <a class="menu-link" href="#source">Source</a>
+          <a class="cta-pill" href="#demo">
+            <span>5-Minute Demo</span>
+            <span class="cta-orb" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+                <path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- ============================== HERO ============================== -->
+      <section class="hero" id="home">
+        <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
+        <div class="grid-line" aria-hidden="true"></div>
+
+        <div class="container hero-inner">
+          <div class="hero-badges" data-reveal>
+            <span class="pill-badge pill-badge--razorpay">
+              <svg class="rzp-logo" viewBox="0 0 64 20" width="78" height="24" aria-hidden="true" role="img">
+                <g fill="currentColor">
+                  <path d="M16.1 0 9.6 13.7 8.2 10.4 9.6 6.9 5.6 6.9 0 18.6 3.7 20 9.6 6.9 13.1 6.9 11.8 10.3 14.5 16.6 20.9 1.2z" />
+                  <path d="M25.4 1.4 23 1.4 19.6 20 22 20z" />
+                  <path d="M36.6 1.4 30.7 1.4 28 11.9 27.9 11.9 25.2 1.4 23.3 1.4 25.6 9.6 27.5 15.3 28.8 15.3 31.4 6.9 31.5 6.9 29.6 15.3 32.1 15.3 34.8 6.9 34.9 6.9 33 15.3 35.5 15.3 38.2 6.6 38.3 6.6 36.4 15.3 39.5 15.3 41.5 6.8 41.6 6.8 39.7 15.3 43.1 15.3 46 1.4z" />
+                  <path d="M51.6 1.4 45.2 1.4 42.1 11.4 42 11.4 44.5 11.4 46.4 5.2 46.5 5.2 47.1 11.4 49.6 11.4 49.1 5.2 49.2 5.2 51.6 1.4z" />
+                  <path d="M63.4 1.4 61.3 7.7 61.2 7.7 59.6 1.4 57.4 1.4 57.3 1.4 58.9 7.9 58.4 9.5 56.5 1.4 54.4 1.4 57.9 11.8 59.8 12.2 62.1 4.6 62.2 4.6 60.3 11.8 62.9 12.3 66.9 1.4z" />
+                </g>
+              </svg>
+              Razorpay Buildathon 2026
+            </span>
+            <span class="pill-badge">Test Mode</span>
+            <span class="pill-badge">Agentic Commerce</span>
+          </div>
+
+          <h1 class="hero-title" data-reveal>
+            Nimbus Commerce
+          </h1>
+          <p class="hero-statement" data-reveal>AI-Powered Commerce, Built for Trust.</p>
+          <p class="hero-sub" data-reveal>
+            Conversational AI shopping with deterministic pricing, secure Razorpay payments, and a
+            complete transaction audit trail.
+          </p>
+
+          <div class="hero-cta" data-reveal>
+            <a class="btn btn--primary" href="#demo">
+              <span>View Live Demo</span>
+              <span class="cta-orb" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+                  <path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+            <a class="btn btn--ghost" href="#github">View GitHub</a>
+            <a class="btn btn--ghost" href="#architecture">Explore Architecture</a>
+          </div>
+
+          <div class="pipeline-shell" data-reveal>
+            <div class="pipeline">
+              <div class="pipeline-head">
+                <span class="pipe-label">The Commerce Pipeline</span>
+                <span class="pipe-tag">server-verified end to end</span>
+              </div>
+              <ol class="pipeline-list">
+                <li class="pipe-item">
+                  <span class="pipe-idx">01</span>
+                  <span class="pipe-name">AI Shopping</span>
+                  <span class="pipe-type">read-only</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">02</span>
+                  <span class="pipe-name">Product Discovery</span>
+                  <span class="pipe-type">read-only</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">03</span>
+                  <span class="pipe-name">Cart</span>
+                  <span class="pipe-type">user action</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">04</span>
+                  <span class="pipe-name">Policy Check</span>
+                  <span class="pipe-type">server check</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">05</span>
+                  <span class="pipe-name">User Approval</span>
+                  <span class="pipe-type">explicit</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">06</span>
+                  <span class="pipe-name">Razorpay Checkout</span>
+                  <span class="pipe-type">test mode</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">07</span>
+                  <span class="pipe-name">Payment Verification</span>
+                  <span class="pipe-type">HMAC</span>
+                </li>
+                <li class="pipe-item">
+                  <span class="pipe-idx">08</span>
+                  <span class="pipe-name">Audit Trail</span>
+                  <span class="pipe-type">immutable</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <p class="hero-foot" data-reveal>
+            Read-only recommendations &middot; you approve every payment &middot; Razorpay TEST mode only
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================== PROBLEM ============================== -->
+      <section class="section" id="problem">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">The Problem</span>
+            <h2 class="section-title">The Problem With AI Commerce</h2>
+          </div>
+
+          <div class="split-grid">
+            <div class="prose" data-reveal>
+              <p>
+                AI can make shopping genuinely conversational. But hand an AI agent direct control over
+                carts, purchases, and payments and you create a trust and security problem: a model that
+                can move money is a model that can be manipulated, hallucinate a price, or bypass an
+                approval step.
+              </p>
+              <p>
+                <strong>Nimbus Commerce separates AI assistance from critical commerce and payment
+                operations.</strong> The assistant lives in a read-only recommendation layer. Every
+                money-moving step is an explicit user action, validated by the server, and recorded in
+                an audit trail.
+              </p>
+            </div>
+
+            <div class="principle-card" data-reveal>
+              <div class="principle-row">
+                <span class="principle-kicker">AI</span>
+                <span class="principle-verb">recommends</span>
+              </div>
+              <div class="principle-row">
+                <span class="principle-kicker">Server</span>
+                <span class="principle-verb">decides</span>
+              </div>
+              <div class="principle-row">
+                <span class="principle-kicker">User</span>
+                <span class="principle-verb">approves</span>
+              </div>
+              <div class="principle-row">
+                <span class="principle-kicker">Razorpay</span>
+                <span class="principle-verb">processes</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-strip" data-reveal>
+            <p>
+              AI recommends. The server decides. The user approves. Razorpay processes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== SOLUTION ============================== -->
+      <section class="section section--tinted" id="solution">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">The Solution</span>
+            <h2 class="section-title">A Safer Way to Shop With AI</h2>
+            <p class="section-lead">
+              Nimbus Commerce lets users interact with products conversationally while keeping money
+              movement deterministic, secure, and explainable.
+            </p>
+          </div>
+
+          <ul class="solution-list">
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Real catalog recommendations</strong> — grounded in server data, never invented.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Server-authoritative prices</strong> — integer paise stored on the server.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Server-authoritative availability</strong> — active flag and inventory checked server-side.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>User-controlled cart</strong> — the AI cannot add or remove items.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Explicit approval</strong> — a human approves every purchase intent.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Policy validation</strong> — 12 server-side checks run before payment intent.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Server-side Razorpay order creation</strong> — amounts never come from the browser.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>HMAC payment verification</strong> — SHA-256 signatures verified server-side.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Verified webhooks</strong> — raw-body signatures checked before trust.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Payment state machine</strong> — explicit states, valid transitions only.</span>
+            </li>
+            <li class="solution-item" data-reveal>
+              <span class="sol-check" aria-hidden="true"></span>
+              <span><strong>Complete audit trail</strong> — every meaningful action is recorded.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================== FEATURES ============================== -->
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Features</span>
+            <h2 class="section-title">Fourteen Decisions That Protect the Purchase</h2>
+            <p class="section-lead">
+              Every capability below exists in the repository. The pattern repeats throughout: the AI and
+              the browser can read and recommend; the server owns price, approval, and payment state.
+            </p>
+          </div>
+
+          <div class="feature-bento">
+            <article class="feat feat--wide" data-reveal>
+              <span class="feat-num">01</span>
+              <h3 class="feat-title">AI Shopping Assistant</h3>
+              <p class="feat-body">
+                Describe what you want in natural language and receive grounded recommendations from the
+                merchant catalog, with explainable reasons and a confidence signal.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">02</span>
+              <h3 class="feat-title">Real Product Catalog</h3>
+              <p class="feat-body">
+                Recommendations are based on actual catalog data — names, prices, inventory, and
+                availability resolved server-side.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">03</span>
+              <h3 class="feat-title">Server-Authoritative Pricing</h3>
+              <p class="feat-body">
+                Prices come from trusted server-side data in integer paise. Neither the AI nor the browser
+                can redefine them.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">04</span>
+              <h3 class="feat-title">Deterministic Cart</h3>
+              <p class="feat-body">
+                Cart totals and a canonical SHA-256 cart hash are calculated from trusted server data, not
+                from client-supplied numbers.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">05</span>
+              <h3 class="feat-title">Explicit Approval</h3>
+              <p class="feat-body">
+                The AI cannot approve purchases. The user must explicitly approve before checkout begins.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">06</span>
+              <h3 class="feat-title">Razorpay Test Mode</h3>
+              <p class="feat-body">
+                Orders are created server-side using the Razorpay Orders API in TEST mode — no real money
+                moves.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">07</span>
+              <h3 class="feat-title">Payment Verification</h3>
+              <p class="feat-body">
+                Payments are verified using server-side HMAC SHA-256 signature verification.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">08</span>
+              <h3 class="feat-title">Secure Webhooks</h3>
+              <p class="feat-body">
+                Razorpay webhook signatures are verified against the raw request body before the payload
+                is trusted.
+              </p>
+            </article>
+            <article class="feat feat--wide" data-reveal>
+              <span class="feat-num">09</span>
+              <h3 class="feat-title">Payment State Machine</h3>
+              <p class="feat-body">
+                An eleven-state transaction machine with valid transitions only. DRAFT through APPROVED is
+                pre-payment; order creation and payment outcome states are strictly enforced, with
+                PAYMENT_SUCCESS, PAYMENT_FAILED, and PAYMENT_UNKNOWN as explicit terminal states.
+              </p>
+              <a class="text-link" href="#state-machine">See the diagram</a>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">10</span>
+              <h3 class="feat-title">Idempotency</h3>
+              <p class="feat-body">
+                Repeated checkout requests and duplicate webhook events are handled safely — no duplicate
+                Razorpay orders, no duplicate transitions.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">11</span>
+              <h3 class="feat-title">Retry Handling</h3>
+              <p class="feat-body">
+                Transient Razorpay failures (network errors and 5xx) are retried exactly once with bounded
+                backoff. Validation errors are never retried.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">12</span>
+              <h3 class="feat-title">Payment Failure Handling</h3>
+              <p class="feat-body">
+                Failed and unknown payment outcomes are represented as explicit, terminal states — never
+                silently downgraded or auto-upgraded.
+              </p>
+            </article>
+            <article class="feat" data-reveal>
+              <span class="feat-num">13</span>
+              <h3 class="feat-title">Audit Trail</h3>
+              <p class="feat-body">
+                Merchants can inspect the history of a transaction and understand exactly how it reached
+                its final state.
+              </p>
+            </article>
+            <article class="feat feat--wide" data-reveal>
+              <span class="feat-num">14</span>
+              <h3 class="feat-title">AI Security Boundary</h3>
+              <p class="feat-body">
+                The AI agent is sandboxed to read-only catalog tools. An ESLint no-restricted-imports rule
+                and a unit test enforce that it cannot import checkout, Razorpay, cart, approval,
+                transaction, audit, webhook, or Prisma modules.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== AI SHOPPING EXPERIENCE ============================== -->
+      <section class="section section--ink" id="ai">
+        <div class="container">
+          <div class="section-head section-head--light" data-reveal>
+            <span class="eyebrow eyebrow--light">AI Shopping Experience</span>
+            <h2 class="section-title">How the Assistant Works</h2>
+          </div>
+
+          <div class="split-grid">
+            <div class="ai-flow" data-reveal>
+              <div class="flow-step">
+                <span class="flow-role">User</span>
+                <span class="flow-desc">Natural-language request</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true"></span>
+              <div class="flow-step">
+                <span class="flow-role">AI Intent Detection</span>
+                <span class="flow-desc">Groq extracts intent, budget, preferences</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true"></span>
+              <div class="flow-step">
+                <span class="flow-role">Read-Only Catalog Tools</span>
+                <span class="flow-desc">search, get, availability, recommend, explain</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true"></span>
+              <div class="flow-step">
+                <span class="flow-role">Real Product Data</span>
+                <span class="flow-desc">server-derived names, prices, stock</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true"></span>
+              <div class="flow-step">
+                <span class="flow-role">Server Verification</span>
+                <span class="flow-desc">every product ID re-checked against the catalog</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true"></span>
+              <div class="flow-step">
+                <span class="flow-role">Natural-Language Response</span>
+                <span class="flow-desc">reply written from grounded facts</span>
+              </div>
+            </div>
+
+            <div class="ai-facts" data-reveal>
+              <h3 class="ai-facts-title">Boundaries of the assistant</h3>
+              <ul class="ai-facts-list">
+                <li>Groq powers conversational AI.</li>
+                <li>Llama 4 Maverick is the conversational model.</li>
+                <li>The API key stays server-side — the browser never receives it.</li>
+                <li>The AI does not select authoritative prices.</li>
+                <li>Product info is resolved through server-side tools.</li>
+                <li>Product IDs are verified by the server (no hallucinated IDs).</li>
+                <li class="is-blocked">The AI cannot create carts.</li>
+                <li class="is-blocked">The AI cannot approve purchases.</li>
+                <li class="is-blocked">The AI cannot create Razorpay orders.</li>
+                <li class="is-blocked">The AI cannot execute payments.</li>
+                <li class="is-blocked">The AI cannot mutate payment state.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== GROQ ============================== -->
+      <section class="section" id="groq">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Groq Integration</span>
+            <h2 class="section-title">A Conversational Layer, Not an Authority</h2>
+          </div>
+
+          <div class="groq-grid">
+            <div class="groq-card" data-reveal>
+              <h3 class="groq-title">How it is wired</h3>
+              <ul class="dot-list">
+                <li>Groq provides the conversational AI layer via the Chat Completions API.</li>
+                <li>The Groq API key is stored server-side and never returned to the client.</li>
+                <li>The agent uses the existing server architecture — no new service.</li>
+                <li>Groq handles intent extraction and natural reply generation.</li>
+                <li>Real product facts come from server-side catalog tools.</li>
+              </ul>
+            </div>
+            <div class="groq-card" data-reveal>
+              <h3 class="groq-title">How it is contained</h3>
+              <ul class="dot-list">
+                <li>The app never trusts LLM-generated prices or payment info.</li>
+                <li>Prompt-injection protections stay active before any model call.</li>
+                <li>A missing or placeholder API key degrades gracefully to a heuristic.</li>
+                <li>Groq failures never crash the application.</li>
+                <li>The app falls back safely when Groq is unavailable.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="code-note" data-reveal>
+            <div class="code-note-head">
+              <span class="code-note-label">model constant</span>
+              <span class="code-note-tag">server-only</span>
+            </div>
+            <pre><code>meta-llama/llama-4-maverick-17b-128e-instruct</code></pre>
+            <p class="code-note-foot">
+              The model is overridable via environment configuration. The key itself is never displayed
+              anywhere on this site.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== AI SECURITY BOUNDARY ============================== -->
+      <section class="section section--tinted" id="security">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">AI Security Boundary</span>
+            <h2 class="section-title">The Agent Cannot Cross Into Payments</h2>
+            <p class="section-lead">
+              The server enforces the boundary — the agent literally cannot import the payment, cart, or
+              state-machine modules.
+            </p>
+          </div>
+
+          <div class="boundary-grid">
+            <div class="boundary-card boundary-card--allowed" data-reveal>
+              <h3 class="boundary-title">AI Agent — Allowed</h3>
+              <ul class="boundary-list">
+                <li>Search catalog</li>
+                <li>Recommend products</li>
+                <li>Inspect availability</li>
+                <li>Generate shopping responses</li>
+              </ul>
+              <p class="boundary-note">Read-only. Everything grounded in server data.</p>
+            </div>
+
+            <div class="boundary-card boundary-card--blocked" data-reveal>
+              <h3 class="boundary-title">Blocked</h3>
+              <ul class="boundary-list boundary-list--blocked">
+                <li>Create cart</li>
+                <li>Approve transaction</li>
+                <li>Create Razorpay order</li>
+                <li>Execute payment</li>
+                <li>Capture payment</li>
+                <li>Refund</li>
+                <li>Change payment state</li>
+                <li>Access payment secrets</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="layer-diagram" data-reveal>
+            <div class="layer-col">
+              <div class="layer-box layer-box--ai">
+                <span class="layer-name">AI Layer</span>
+                <span class="layer-sub">read-only tools</span>
+              </div>
+              <span class="layer-line" aria-hidden="true"></span>
+              <div class="layer-box layer-box--service">
+                <span class="layer-name">Catalog Service</span>
+                <span class="layer-sub">products · prices · inventory</span>
+              </div>
+              <span class="layer-note">The AI stays inside this zone.</span>
+            </div>
+            <div class="layer-divider" aria-hidden="true"></div>
+            <div class="layer-col">
+              <div class="layer-box layer-box--pay">
+                <span class="layer-name">Payment Layer</span>
+                <span class="layer-sub">separate surface</span>
+              </div>
+              <span class="layer-line" aria-hidden="true"></span>
+              <div class="layer-box layer-box--service">
+                <span class="layer-name">Checkout Service</span>
+                <span class="layer-sub">order · verify · state</span>
+              </div>
+              <span class="layer-line" aria-hidden="true"></span>
+              <div class="layer-box layer-box--razorpay">
+                <span class="layer-name">Razorpay</span>
+                <span class="layer-sub">test API</span>
+              </div>
+              <span class="layer-note">The AI cannot enter this zone.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== ARCHITECTURE ============================== -->
+      <section class="section" id="architecture">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Architecture</span>
+            <h2 class="section-title">One App, Two Trust Zones</h2>
+            <p class="section-lead">
+              A single Next.js application, split into a read-only AI zone and a server-controlled payment
+              zone. The diagram mirrors the repository layout.
+            </p>
+          </div>
+
+          <div class="arch" data-reveal>
+            <div class="arch-top">
+              <div class="arch-node">
+                <span class="arch-node-name">Browser</span>
+                <span class="arch-node-sub">React 19 UI · shop · merchant</span>
+              </div>
+              <span class="arch-arrow" aria-hidden="true"></span>
+              <div class="arch-node">
+                <span class="arch-node-name">Next.js Application</span>
+                <span class="arch-node-sub">App Router · API routes</span>
+              </div>
+              <span class="arch-arrow" aria-hidden="true"></span>
+              <div class="arch-node arch-node--services">
+                <span class="arch-node-name">Application Services</span>
+                <span class="arch-node-sub">Agent · Catalog · Cart · Approval/Policy · Checkout · Transaction State Machine · Audit</span>
+              </div>
+            </div>
+
+            <div class="arch-zones">
+              <div class="arch-zone arch-zone--ai">
+                <div class="zone-label">
+                  <span class="zone-dot zone-dot--violet"></span>
+                  AI zone — read-only
+                </div>
+                <div class="zone-row">
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Agent</span>
+                    <span class="arch-node-sub">tools: search · get · availability · recommend</span>
+                  </div>
+                  <span class="arch-arrow arch-arrow--small" aria-hidden="true"></span>
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Groq</span>
+                    <span class="arch-node-sub">Llama 4 Maverick</span>
+                  </div>
+                </div>
+                <p class="zone-foot">Prompt-injection guard · read-only catalog tools · no money modules</p>
+              </div>
+
+              <div class="arch-zone arch-zone--pay">
+                <div class="zone-label">
+                  <span class="zone-dot zone-dot--indigo"></span>
+                  Server-controlled payment zone
+                </div>
+                <div class="zone-row">
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Checkout Service</span>
+                    <span class="arch-node-sub">create order · verify payment · record failure · mark unknown</span>
+                  </div>
+                  <span class="arch-arrow arch-arrow--small" aria-hidden="true"></span>
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Razorpay Test API</span>
+                    <span class="arch-node-sub">Orders API · HMAC verify · webhooks</span>
+                  </div>
+                </div>
+                <div class="zone-webhook">
+                  <span class="arch-arrow arch-arrow--down" aria-hidden="true"></span>
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Webhook Verification</span>
+                    <span class="arch-node-sub">raw body · HMAC SHA-256 · timing-safe compare</span>
+                  </div>
+                  <span class="arch-arrow arch-arrow--down" aria-hidden="true"></span>
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Transaction State Machine</span>
+                    <span class="arch-node-sub">11 states · valid transitions only</span>
+                  </div>
+                  <span class="arch-arrow arch-arrow--down" aria-hidden="true"></span>
+                  <div class="arch-node arch-node--small">
+                    <span class="arch-node-name">Audit Service</span>
+                    <span class="arch-node-sub">immutable event log</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-db">
+              <span class="arch-arrow arch-arrow--down" aria-hidden="true"></span>
+              <div class="arch-node arch-node--db">
+                <span class="arch-node-name">Prisma + SQLite</span>
+                <span class="arch-node-sub">Product · Cart · CartItem · Transaction · AuditEvent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== CHECKOUT FLOW ============================== -->
+      <section class="section section--tinted" id="checkout">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Checkout Flow</span>
+            <h2 class="section-title">Fourteen Steps, Every One Intentional</h2>
+          </div>
+
+          <ol class="flow-14" data-reveal>
+            <li class="f14"><span class="f14-num">1</span><span>User asks the AI for a product.</span></li>
+            <li class="f14"><span class="f14-num">2</span><span>AI discovers products from the merchant catalog.</span></li>
+            <li class="f14"><span class="f14-num">3</span><span>Server provides real product information.</span></li>
+            <li class="f14"><span class="f14-num">4</span><span>User adds products to the cart.</span></li>
+            <li class="f14"><span class="f14-num">5</span><span>Server calculates the authoritative total.</span></li>
+            <li class="f14"><span class="f14-num">6</span><span>Policy engine checks the purchase (12 checks).</span></li>
+            <li class="f14"><span class="f14-num">7</span><span>User explicitly approves.</span></li>
+            <li class="f14"><span class="f14-num">8</span><span>Server creates the Razorpay order.</span></li>
+            <li class="f14"><span class="f14-num">9</span><span>Razorpay handles payment in test mode.</span></li>
+            <li class="f14"><span class="f14-num">10</span><span>Server verifies the payment signature (HMAC).</span></li>
+            <li class="f14"><span class="f14-num">11</span><span>Razorpay webhook is received.</span></li>
+            <li class="f14"><span class="f14-num">12</span><span>Webhook signature is verified against the raw body.</span></li>
+            <li class="f14"><span class="f14-num">13</span><span>Transaction state is updated through the machine.</span></li>
+            <li class="f14"><span class="f14-num">14</span><span>Audit event is recorded.</span></li>
+          </ol>
+
+          <div class="quote-strip quote-strip--violet" data-reveal>
+            <p>AI recommends. The server decides. The user approves. Razorpay processes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== RAZORPAY TEST MODE ============================== -->
+      <section class="section" id="razorpay">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Razorpay Test Mode</span>
+            <h2 class="section-title">How Razorpay Is Used</h2>
+          </div>
+
+          <div class="razorpay-grid">
+            <div class="rp-card rp-card--main" data-reveal>
+              <div class="rp-head">
+                <svg class="rzp-logo rzp-logo--ink" viewBox="0 0 64 20" width="96" height="30" aria-hidden="true" role="img">
+                  <g fill="currentColor">
+                    <path d="M16.1 0 9.6 13.7 8.2 10.4 9.6 6.9 5.6 6.9 0 18.6 3.7 20 9.6 6.9 13.1 6.9 11.8 10.3 14.5 16.6 20.9 1.2z" />
+                    <path d="M25.4 1.4 23 1.4 19.6 20 22 20z" />
+                    <path d="M36.6 1.4 30.7 1.4 28 11.9 27.9 11.9 25.2 1.4 23.3 1.4 25.6 9.6 27.5 15.3 28.8 15.3 31.4 6.9 31.5 6.9 29.6 15.3 32.1 15.3 34.8 6.9 34.9 6.9 33 15.3 35.5 15.3 38.2 6.6 38.3 6.6 36.4 15.3 39.5 15.3 41.5 6.8 41.6 6.8 39.7 15.3 43.1 15.3 46 1.4z" />
+                    <path d="M51.6 1.4 45.2 1.4 42.1 11.4 42 11.4 44.5 11.4 46.4 5.2 46.5 5.2 47.1 11.4 49.6 11.4 49.1 5.2 49.2 5.2 51.6 1.4z" />
+                    <path d="M63.4 1.4 61.3 7.7 61.2 7.7 59.6 1.4 57.4 1.4 57.3 1.4 58.9 7.9 58.4 9.5 56.5 1.4 54.4 1.4 57.9 11.8 59.8 12.2 62.1 4.6 62.2 4.6 60.3 11.8 62.9 12.3 66.9 1.4z" />
+                  </g>
+                </svg>
+                <span class="rp-badge">TEST mode</span>
+              </div>
+              <p class="rp-lead">
+                Nimbus Commerce processes no real money. Every order is created against Razorpay&rsquo;s
+                test environment, with server-side verification throughout.
+              </p>
+              <ul class="rp-list">
+                <li>Orders are created server-side.</li>
+                <li>Razorpay credentials remain server-side.</li>
+                <li>Payment verification happens server-side.</li>
+                <li>HMAC SHA-256 signature verification is used.</li>
+                <li>Webhook signatures are verified.</li>
+                <li>Browser input is never the payment authority.</li>
+                <li>The authoritative amount comes from the server-side transaction snapshot.</li>
+              </ul>
+            </div>
+
+            <div class="rp-card" data-reveal>
+              <h3 class="rp-title">The verification path</h3>
+              <div class="rp-path">
+                <div class="rp-step"><span class="rp-step-name">Order</span><span class="rp-step-sub">Razorpay Orders API</span></div>
+                <span class="rp-arrow" aria-hidden="true"></span>
+                <div class="rp-step"><span class="rp-step-name">Signature</span><span class="rp-step-sub">HMAC SHA-256</span></div>
+                <span class="rp-arrow" aria-hidden="true"></span>
+                <div class="rp-step"><span class="rp-step-name">State</span><span class="rp-step-sub">state machine</span></div>
+              </div>
+              <p class="rp-note">
+                The Razorpay key secret and webhook secret are referenced here by name only. No actual
+                credentials are shown on this site, and neither value ever reaches the browser.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== WEBHOOKS ============================== -->
+      <section class="section section--ink" id="webhooks">
+        <div class="container">
+          <div class="section-head section-head--light" data-reveal>
+            <span class="eyebrow">Webhooks</span>
+            <h2 class="section-title">Verify First, Trust Second</h2>
+          </div>
+
+          <div class="webhook-grid">
+            <div class="wh-flow" data-reveal>
+              <div class="wh-step">
+                <span class="wh-name">Razorpay</span>
+                <span class="wh-sub">sends the event</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">Raw Body</span>
+                <span class="wh-sub">exact bytes, not re-serialized</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">HMAC SHA-256</span>
+                <span class="wh-sub">shared webhook secret</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">Signature Verification</span>
+                <span class="wh-sub">timing-safe comparison</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">Transaction Lookup</span>
+                <span class="wh-sub">by razorpay order id</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">State Handling</span>
+                <span class="wh-sub">payment.failed drives state</span>
+              </div>
+              <span class="wh-arrow" aria-hidden="true"></span>
+              <div class="wh-step">
+                <span class="wh-name">Audit Event</span>
+                <span class="wh-sub">recorded regardless of outcome</span>
+              </div>
+            </div>
+
+            <div class="wh-facts" data-reveal>
+              <h3 class="wh-title">How it behaves</h3>
+              <ul class="dot-list dot-list--light">
+                <li>Raw request body is used for verification.</li>
+                <li>The signature is verified before the payload is trusted.</li>
+                <li>Invalid signatures are rejected and audited.</li>
+                <li>Unknown orders are acknowledged safely (no retry storm).</li>
+                <li>Duplicate webhooks are handled idempotently.</li>
+                <li>payment.failed can move valid pending/processing payments into PAYMENT_FAILED.</li>
+                <li>Successful transactions can never be incorrectly downgraded.</li>
+                <li>Webhook amounts are never treated as the authoritative transaction amount.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== STATE MACHINE ============================== -->
+      <section class="section" id="state-machine">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Payment State Machine</span>
+            <h2 class="section-title">Eleven States. Only Legal Moves.</h2>
+            <p class="section-lead">
+              These are the real states from <code class="inline-code">src/server/transaction/stateMachine.ts</code>.
+              Every transition is validated; terminal states are highlighted.
+            </p>
+          </div>
+
+          <div class="state-lanes" data-reveal>
+            <div class="lane">
+              <div class="lane-label">Pre-payment</div>
+              <div class="state-node">DRAFT</div>
+              <span class="state-arrow" aria-hidden="true"></span>
+              <div class="state-node">CART_READY</div>
+              <span class="state-arrow" aria-hidden="true"></span>
+              <div class="state-node">APPROVAL_PENDING</div>
+              <span class="state-arrow" aria-hidden="true"></span>
+              <div class="state-node">APPROVED</div>
+            </div>
+
+            <div class="lane">
+              <div class="lane-label">Order creation</div>
+              <div class="state-node">APPROVED</div>
+              <span class="state-arrow" aria-hidden="true"></span>
+              <div class="state-node">ORDER_CREATED</div>
+              <span class="state-arrow" aria-hidden="true"></span>
+              <div class="state-node">PAYMENT_PENDING</div>
+              <div class="state-note">ORDER_CREATING also leads to ORDER_CREATED</div>
+            </div>
+
+            <div class="lane">
+              <div class="lane-label">Payment outcome</div>
+              <div class="state-node">PAYMENT_PENDING / PAYMENT_PROCESSING</div>
+              <span class="state-arrow state-arrow--split" aria-hidden="true"></span>
+              <div class="state-row">
+                <div class="state-node state-node--terminal state-node--ok">PAYMENT_SUCCESS</div>
+                <div class="state-node state-node--terminal state-node--fail">PAYMENT_FAILED</div>
+                <div class="state-node state-node--terminal state-node--unknown">PAYMENT_UNKNOWN</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="state-rules" data-reveal>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>Invalid shortcuts are rejected.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>A transaction cannot jump from an early state directly to PAYMENT_SUCCESS.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>Approval cannot be bypassed.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>Payment verification is required.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>PAYMENT_FAILED and PAYMENT_UNKNOWN are explicit terminal states.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>Terminal states cannot be incorrectly downgraded.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>Repeated operations are handled safely.</div>
+            <div class="rule"><span class="rule-tick" aria-hidden="true"></span>PAYMENT_UNKNOWN never auto-converts to PAYMENT_SUCCESS.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== FAILURE HANDLING ============================== -->
+      <section class="section section--tinted" id="failure">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Failure Handling</span>
+            <h2 class="section-title">When Things Go Wrong</h2>
+          </div>
+
+          <div class="fail-grid" data-reveal>
+            <div class="fail-triggers">
+              <h3 class="fail-title">What is handled</h3>
+              <ul class="dot-list">
+                <li>Network failures</li>
+                <li>Razorpay 5xx responses</li>
+                <li>Timeouts</li>
+                <li>Duplicate requests</li>
+                <li>Duplicate webhooks</li>
+                <li>Invalid signatures</li>
+                <li>Unknown orders</li>
+                <li>Failed payments</li>
+                <li>Unknown payment states</li>
+                <li>Invalid state transitions</li>
+              </ul>
+            </div>
+
+            <div class="fail-flow">
+              <div class="ff-step"><span class="ff-name">Failure</span><span class="ff-sub">detected</span></div>
+              <span class="ff-arrow" aria-hidden="true"></span>
+              <div class="ff-step"><span class="ff-name">Detection</span><span class="ff-sub">classified transient vs permanent</span></div>
+              <span class="ff-arrow" aria-hidden="true"></span>
+              <div class="ff-step"><span class="ff-name">Safe Recovery</span><span class="ff-sub">one retry or terminal state</span></div>
+              <span class="ff-arrow" aria-hidden="true"></span>
+              <div class="ff-step"><span class="ff-name">Audit Event</span><span class="ff-sub">recorded for merchants</span></div>
+            </div>
+          </div>
+
+          <div class="retry-note" data-reveal>
+            <h3 class="retry-title">Retry behaviour — exactly as implemented</h3>
+            <p>
+              Order creation retries <strong>once</strong> on transient errors (network codes, timeouts, HTTP 5xx)
+              with a 250&nbsp;ms backoff. Validation, configuration, and 4xx errors are never retried, and
+              PAYMENT_FAILED / PAYMENT_UNKNOWN are terminal — an operator creates a new transaction instead of
+              auto-retrying a failed one.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== IDEMPOTENCY ============================== -->
+      <section class="section" id="idempotency">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Idempotency</span>
+            <h2 class="section-title">Same Request, Same Result</h2>
+            <p class="section-lead">
+              Duplicate requests are normal: a retried request, a double-click, a re-delivered webhook.
+              The system detects the duplicate and reuses existing state instead of double-charging.
+            </p>
+          </div>
+
+          <div class="idem-grid" data-reveal>
+            <div class="idem-col">
+              <div class="idem-req">
+                <span class="idem-badge">Request 1</span>
+                <span class="idem-action">Create order</span>
+              </div>
+              <span class="idem-arrow" aria-hidden="true"></span>
+              <div class="idem-outcome">
+                <span class="idem-ok" aria-hidden="true"></span>
+                New Razorpay order created
+              </div>
+            </div>
+            <div class="idem-col">
+              <div class="idem-req">
+                <span class="idem-badge">Request 2</span>
+                <span class="idem-action">Detect existing order</span>
+              </div>
+              <span class="idem-arrow" aria-hidden="true"></span>
+              <div class="idem-outcome">
+                <span class="idem-ok" aria-hidden="true"></span>
+                Reuse existing state / order
+              </div>
+            </div>
+          </div>
+
+          <div class="idem-facts" data-reveal>
+            <p>
+              Idempotency prevents duplicate Razorpay orders and duplicate state transitions. A unique
+              constraint on <code class="inline-code">cartId + cartHash</code> guards approval, and a unique
+              <code class="inline-code">razorpayOrderId</code> guards order creation. Duplicate webhooks on an
+              already-successful transaction are acknowledged without re-processing, and a webhook can never
+              downgrade a success.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== AUDIT TRAIL ============================== -->
+      <section class="section section--tinted" id="audit">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Audit Trail</span>
+            <h2 class="section-title">Every Important Action Leaves a Trail</h2>
+          </div>
+
+          <div class="audit-grid">
+            <div class="audit-timeline" data-reveal>
+              <div class="tl-step">
+                <span class="tl-event">STATE_TRANSITION</span>
+                <span class="tl-trans">DRAFT &rarr; CART_READY</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">STATE_TRANSITION</span>
+                <span class="tl-trans">CART_READY &rarr; APPROVAL_PENDING</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">APPROVAL_GRANTED</span>
+                <span class="tl-trans">APPROVAL_PENDING &rarr; APPROVED</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">CHECKOUT_ORDER_CREATED</span>
+                <span class="tl-trans">APPROVED &rarr; ORDER_CREATED</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">CHECKOUT_PAYMENT_PENDING</span>
+                <span class="tl-trans">ORDER_CREATED &rarr; PAYMENT_PENDING</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">PAYMENT_VERIFIED</span>
+                <span class="tl-trans">PAYMENT_PROCESSING &rarr; PAYMENT_SUCCESS</span>
+              </div>
+              <span class="tl-line" aria-hidden="true"></span>
+              <div class="tl-step">
+                <span class="tl-event">WEBHOOK_VERIFIED</span>
+                <span class="tl-trans">confirmed by Razorpay webhook</span>
+              </div>
+            </div>
+
+            <div class="audit-info" data-reveal>
+              <p>
+                Merchants can inspect event type, timestamp, from state, to state, transaction ID, cart ID,
+                cart hash, request ID, policy result, policy total, verification source, and simulation status
+                for every event in a transaction&rsquo;s history.
+              </p>
+              <p>
+                The example events above are real event types from
+                <code class="inline-code">src/server/audit/service.ts</code>. The table below is illustrative
+                example data — not a claim about a real transaction.
+              </p>
+            </div>
+          </div>
+
+          <div class="audit-table-shell" data-reveal>
+            <div class="audit-table-scroll">
+              <table class="audit-table">
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>From &rarr; To</th>
+                    <th>Request</th>
+                    <th>Policy</th>
+                    <th>Source</th>
+                    <th>Sim</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">STATE_TRANSITION</td>
+                    <td class="mono">DRAFT &rarr; CART_READY</td>
+                    <td class="mono">req_m4x…</td>
+                    <td>12/12</td>
+                    <td class="mono">user_explicit_approval</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">APPROVAL_GRANTED</td>
+                    <td class="mono">APPROVAL_PENDING &rarr; APPROVED</td>
+                    <td class="mono">req_m4x…</td>
+                    <td>12/12</td>
+                    <td class="mono">user_explicit_approval</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">CHECKOUT_ORDER_CREATED</td>
+                    <td class="mono">APPROVED &rarr; ORDER_CREATED</td>
+                    <td class="mono">req_p9k…</td>
+                    <td>&mdash;</td>
+                    <td class="mono">razorpay_order</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">PAYMENT_VERIFIED</td>
+                    <td class="mono">PAYMENT_PROCESSING &rarr; PAYMENT_SUCCESS</td>
+                    <td class="mono">req_p9k…</td>
+                    <td>&mdash;</td>
+                    <td class="mono">hmac_sha256</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">WEBHOOK_VERIFIED</td>
+                    <td class="mono">PAYMENT_SUCCESS &rarr; PAYMENT_SUCCESS</td>
+                    <td class="mono">—</td>
+                    <td>&mdash;</td>
+                    <td class="mono">webhook_payment.captured:captured</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">PAYMENT_FAILED</td>
+                    <td class="mono">PAYMENT_PENDING &rarr; PAYMENT_FAILED</td>
+                    <td class="mono">req_8xt…</td>
+                    <td>&mdash;</td>
+                    <td class="mono">payment_failed_webhook</td>
+                    <td><span class="sim-tag">live</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== MERCHANT EXPERIENCE ============================== -->
+      <section class="section" id="merchant">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Merchant Experience</span>
+            <h2 class="section-title">The Dashboard Tells the Whole Story</h2>
+            <p class="section-lead">
+              Five views give a merchant full visibility into catalog, orders, payments, and the audit trail
+              behind every transaction.
+            </p>
+          </div>
+
+          <div class="merchant-grid" data-reveal>
+            <article class="merch-card">
+              <span class="merch-idx">Overview</span>
+              <p class="merch-body">A snapshot of the merchant&rsquo;s operation: active products, inventory, and recent transaction signals.</p>
+            </article>
+            <article class="merch-card">
+              <span class="merch-idx">Products</span>
+              <p class="merch-body">Browse the server catalog with authoritative prices in integer paise and live inventory counts.</p>
+            </article>
+            <article class="merch-card">
+              <span class="merch-idx">Orders</span>
+              <p class="merch-body">Track transactions by state — approved, order created, pending, success, failed, unknown — each with its snapshot.</p>
+            </article>
+            <article class="merch-card">
+              <span class="merch-idx">Payments</span>
+              <p class="merch-body">See payment state and verification source per transaction, tied to Razorpay order and payment IDs.</p>
+            </article>
+            <article class="merch-card merch-card--wide">
+              <span class="merch-idx">Audit Trail</span>
+              <p class="merch-body">
+                Look up any transaction or cart ID and replay its full event history in deterministic order —
+                event type, timestamps, state transitions, request IDs, policy results, verification sources,
+                and simulation flags.
+              </p>
+              <div class="merch-thumb" aria-hidden="true">
+                <span class="thumb-line"><i>Time</i><b>Event</b><b>State</b><b>Source</b></span>
+                <span class="thumb-line"><i>12:01:04</i><b class="mono">STATE_TRANSITION</b><b class="mono">DRAFT → CART_READY</b><b class="mono">user_explicit_approval</b></span>
+                <span class="thumb-line"><i>12:01:09</i><b class="mono">APPROVAL_GRANTED</b><b class="mono">APPROVAL_PENDING → APPROVED</b><b class="mono">user_explicit_approval</b></span>
+                <span class="thumb-line"><i>12:01:22</i><b class="mono">PAYMENT_VERIFIED</b><b class="mono">PAYMENT_PROCESSING → PAYMENT_SUCCESS</b><b class="mono">hmac_sha256</b></span>
+              </div>
+            </article>
+          </div>
+          <p class="visual-note">
+            Illustrative UI summary — the live merchant pages live in the repository at
+            <code class="inline-code">src/app/merchant/</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================== SECURITY BY DESIGN ============================== -->
+      <section class="section section--ink" id="security-by-design">
+        <div class="container">
+          <div class="section-head section-head--light" data-reveal>
+            <span class="eyebrow">Security by Design</span>
+            <h2 class="section-title">Security by Design</h2>
+          </div>
+
+          <div class="sec-boundary" data-reveal>
+            <div class="sec-node">Browser</div>
+            <span class="sec-arrow" aria-hidden="true"></span>
+            <div class="sec-node">Public API</div>
+            <span class="sec-arrow" aria-hidden="true"></span>
+            <div class="sec-node">Validation</div>
+            <span class="sec-arrow" aria-hidden="true"></span>
+            <div class="sec-node">Server Business Logic</div>
+            <span class="sec-arrow" aria-hidden="true"></span>
+            <div class="sec-node sec-node--pay">Trusted Payment Boundary</div>
+            <span class="sec-arrow" aria-hidden="true"></span>
+            <div class="sec-node sec-node--razorpay">Razorpay</div>
+          </div>
+
+          <ol class="sec-list">
+            <li class="sec-item" data-reveal><span class="sec-num">01</span><span>Server-side Razorpay secrets</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">02</span><span>Server-side Groq API key</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">03</span><span>HMAC payment verification</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">04</span><span>HMAC webhook verification</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">05</span><span>Raw-body webhook verification</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">06</span><span>Timing-safe signature comparison</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">07</span><span>Server-authoritative pricing</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">08</span><span>Explicit user approval</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">09</span><span>AI read-only boundary</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">10</span><span>Prompt injection protection</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">11</span><span>Input validation</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">12</span><span>Rate limiting</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">13</span><span>Idempotency</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">14</span><span>Duplicate webhook protection</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">15</span><span>Unknown payment state</span></li>
+            <li class="sec-item" data-reveal><span class="sec-num">16</span><span>No payment secret exposure</span></li>
+          </ol>
+
+          <p class="sec-foot" data-reveal>
+            Secrets never enter the browser. The browser talks only to public API routes; validation,
+            business logic, and the Razorpay boundary all live on the server.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================== TESTING ============================== -->
+      <section class="section" id="testing">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Testing</span>
+            <h2 class="section-title">Two Suites, One Guarantee</h2>
+            <p class="section-lead">
+              Real, runnable numbers: the repository&rsquo;s verified baseline is 281 passing unit tests and
+              282 passing end-to-end tests.
+            </p>
+          </div>
+
+          <div class="testing-grid" data-reveal>
+            <div class="test-card">
+              <div class="test-head">
+                <span class="test-framework">Vitest</span>
+                <span class="test-count">281</span>
+                <span class="test-unit">unit tests</span>
+              </div>
+              <ul class="dot-list">
+                <li>Unit tests</li>
+                <li>State machine tests</li>
+                <li>Agent security tests</li>
+                <li>Checkout tests</li>
+                <li>Webhook tests</li>
+                <li>Idempotency tests</li>
+                <li>Failure handling tests</li>
+              </ul>
+            </div>
+
+            <div class="test-card">
+              <div class="test-head">
+                <span class="test-framework">Playwright</span>
+                <span class="test-count">282</span>
+                <span class="test-unit">E2E tests</span>
+              </div>
+              <ul class="dot-list">
+                <li>Shopping flow</li>
+                <li>AI interaction</li>
+                <li>Cart</li>
+                <li>Approval</li>
+                <li>Checkout</li>
+                <li>Merchant pages</li>
+                <li>Payments</li>
+                <li>Audit trail</li>
+                <li>Mobile layouts</li>
+                <li>Security boundaries</li>
+                <li>Webhooks</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="test-note" data-reveal>
+            <p>
+              Counts verified by running <code class="inline-code">npx vitest run</code> (281/281) and
+              <code class="inline-code">npx playwright test --workers=2</code> (282/282), matching the
+              repository README. ESLint is clean and the production build succeeds.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== DEMO ============================== -->
+      <section class="section section--tinted" id="demo">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Demo</span>
+            <h2 class="section-title">The 5-Minute Walkthrough</h2>
+          </div>
+
+          <ol class="demo-list">
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">00:00</span>
+              <span class="demo-name">The Problem</span>
+              <span class="demo-desc">Why AI needs guardrails around money movement.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">00:30</span>
+              <span class="demo-name">AI Shopping</span>
+              <span class="demo-desc">Ask for a product in plain language; get grounded picks.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">01:30</span>
+              <span class="demo-name">Cart and Server Pricing</span>
+              <span class="demo-desc">Server totals and cart hash, not browser numbers.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">02:15</span>
+              <span class="demo-name">Approval and Policy</span>
+              <span class="demo-desc">Twelve server checks gate the purchase intent.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">02:45</span>
+              <span class="demo-name">Razorpay Checkout</span>
+              <span class="demo-desc">Server-created test order, user completes payment.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">03:30</span>
+              <span class="demo-name">Payment Verification and Webhooks</span>
+              <span class="demo-desc">HMAC verify plus verified webhook confirm the outcome.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">04:00</span>
+              <span class="demo-name">Audit Trail</span>
+              <span class="demo-desc">Replay every event in the transaction&rsquo;s history.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">04:30</span>
+              <span class="demo-name">Security Architecture</span>
+              <span class="demo-desc">The AI boundary and trusted payment zone.</span>
+            </li>
+            <li class="demo-item" data-reveal>
+              <span class="demo-time">05:00</span>
+              <span class="demo-name">Final Result</span>
+              <span class="demo-desc">A full, explainable purchase with no AI money access.</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============================== HOW WE BUILT IT ============================== -->
+      <section class="section" id="built">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">How We Built It</span>
+            <h2 class="section-title">The Build Journey</h2>
+          </div>
+
+          <div class="journey" data-reveal>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Merchant catalog</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">AI shopping</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Cart and deterministic pricing</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Approval and policy</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Razorpay checkout</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Webhooks</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Audit trail</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Payment failure handling</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">UNKNOWN state handling</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Retry handling</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Idempotency</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Comprehensive E2E testing</span></div>
+            <div class="journey-item"><span class="j-dot" aria-hidden="true"></span><span class="j-name">Final UX polish</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== TECH STACK ============================== -->
+      <section class="section section--tinted" id="stack">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Tech Stack</span>
+            <h2 class="section-title">Built With</h2>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card" data-reveal>
+              <h3 class="stack-cat">Frontend</h3>
+              <ul class="stack-list">
+                <li>Next.js (App Router)</li>
+                <li>React 19</li>
+                <li>TypeScript</li>
+                <li>Tailwind CSS v4</li>
+              </ul>
+            </div>
+            <div class="stack-card" data-reveal>
+              <h3 class="stack-cat">Backend</h3>
+              <ul class="stack-list">
+                <li>Next.js API routes</li>
+                <li>Prisma</li>
+                <li>SQLite</li>
+                <li>Zod</li>
+              </ul>
+            </div>
+            <div class="stack-card" data-reveal>
+              <h3 class="stack-cat">AI</h3>
+              <ul class="stack-list">
+                <li>Groq</li>
+                <li>Llama 4 Maverick</li>
+                <li>Server-side AI agent architecture</li>
+              </ul>
+            </div>
+            <div class="stack-card" data-reveal>
+              <h3 class="stack-cat">Payments</h3>
+              <ul class="stack-list">
+                <li>Razorpay Test Mode</li>
+                <li>Razorpay Orders API</li>
+                <li>HMAC verification</li>
+                <li>Razorpay webhooks</li>
+              </ul>
+            </div>
+            <div class="stack-card" data-reveal>
+              <h3 class="stack-cat">Testing</h3>
+              <ul class="stack-list">
+                <li>Vitest</li>
+                <li>Playwright</li>
+                <li>ESLint</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== SOURCE TREE ============================== -->
+      <section class="section" id="source">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Source Tree</span>
+            <h2 class="section-title">Explore the Code Layout</h2>
+            <p class="section-lead">
+              The important directories and files, as they exist in the repository. Click a folder to expand.
+            </p>
+          </div>
+
+          <div class="tree-shell" data-reveal>
+            <div class="tree">
+              <div class="tree-row"><span class="t-dir">src/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse src"></button></div>
+              <div class="tree-group is-open">
+                <div class="tree-row"><span class="t-dir">app/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse app"></button></div>
+                <div class="tree-group is-open">
+                  <div class="tree-row"><span class="t-dir">api/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse api"></button></div>
+                  <div class="tree-group is-open">
+                    <div class="tree-row"><span class="t-file">agent/chat</span></div>
+                    <div class="tree-row"><span class="t-file">approval</span></div>
+                    <div class="tree-row"><span class="t-file">audit</span></div>
+                    <div class="tree-row"><span class="t-file">cart/[id]/items</span></div>
+                    <div class="tree-row"><span class="t-file">checkout/order</span></div>
+                    <div class="tree-row"><span class="t-file">checkout/verify</span></div>
+                    <div class="tree-row"><span class="t-file">products/search</span></div>
+                    <div class="tree-row"><span class="t-file">webhooks/razorpay</span></div>
+                  </div>
+                  <div class="tree-row"><span class="t-dir">merchant/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse merchant"></button></div>
+                  <div class="tree-group is-open">
+                    <div class="tree-row"><span class="t-file">overview</span></div>
+                    <div class="tree-row"><span class="t-file">products</span></div>
+                    <div class="tree-row"><span class="t-file">orders</span></div>
+                    <div class="tree-row"><span class="t-file">payments</span></div>
+                    <div class="tree-row"><span class="t-file">audit</span></div>
+                  </div>
+                  <div class="tree-row"><span class="t-file">shop</span></div>
+                </div>
+                <div class="tree-row"><span class="t-dir">components/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse components"></button></div>
+                <div class="tree-group is-open">
+                  <div class="tree-row"><span class="t-file">shop/ShopChat</span></div>
+                  <div class="tree-row"><span class="t-file">ProductCard</span></div>
+                  <div class="tree-row"><span class="t-file">ui/ (badge, button, card, table, modal)</span></div>
+                </div>
+                <div class="tree-row"><span class="t-dir">server/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse server"></button></div>
+                <div class="tree-group is-open">
+                  <div class="tree-row"><span class="t-dir">agent/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse agent"></button></div>
+                  <div class="tree-group is-open">
+                    <div class="tree-row"><span class="t-file">agent.ts</span></div>
+                    <div class="tree-row"><span class="t-file">tools.ts</span></div>
+                    <div class="tree-row"><span class="t-file">groq.ts</span></div>
+                    <div class="tree-row"><span class="t-file">prompts.ts</span></div>
+                    <div class="tree-row"><span class="t-file">schemas.ts</span></div>
+                  </div>
+                  <div class="tree-row"><span class="t-file">catalog.ts</span></div>
+                  <div class="tree-row"><span class="t-file">cart.ts</span></div>
+                  <div class="tree-row"><span class="t-dir">approval/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse approval"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">service.ts</span></div></div>
+                  <div class="tree-row"><span class="t-dir">policy/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse policy"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">engine.ts · checks.ts · types.ts</span></div></div>
+                  <div class="tree-row"><span class="t-dir">checkout/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse checkout"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">service.ts</span></div></div>
+                  <div class="tree-row"><span class="t-dir">razorpay/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse razorpay"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">client.ts</span></div></div>
+                  <div class="tree-row"><span class="t-dir">transaction/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse transaction"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">stateMachine.ts</span></div></div>
+                  <div class="tree-row"><span class="t-dir">audit/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse audit"></button></div>
+                  <div class="tree-group is-open"><div class="tree-row"><span class="t-file">service.ts</span></div></div>
+                </div>
+                <div class="tree-row"><span class="t-file">lib/ (prisma, money)</span></div>
+              </div>
+              <div class="tree-row"><span class="t-dir">prisma/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse prisma"></button></div>
+              <div class="tree-group is-open">
+                <div class="tree-row"><span class="t-file">schema.prisma</span></div>
+                <div class="tree-row"><span class="t-file">seed.ts</span></div>
+              </div>
+              <div class="tree-row"><span class="t-dir">tests/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse tests"></button></div>
+              <div class="tree-group is-open">
+                <div class="tree-row"><span class="t-dir">unit/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse unit"></button></div>
+                <div class="tree-group is-open">
+                  <div class="tree-row"><span class="t-file">stateMachine · policy · checkout · webhook · approval · agent-security · audit · phase9 …</span></div>
+                </div>
+                <div class="tree-row"><span class="t-dir">e2e/</span><button class="t-toggle" data-toggle aria-expanded="true" aria-label="Collapse e2e"></button></div>
+                <div class="tree-group is-open">
+                  <div class="tree-row"><span class="t-file">shop · agent · cart-ui · approval-ui · checkout · webhook · phase9 · phase10-mobile · phase10-security …</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== CHALLENGES ============================== -->
+      <section class="section section--tinted" id="challenges">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Challenges</span>
+            <h2 class="section-title">What Was Hard</h2>
+            <p class="section-lead">
+              Real obstacles, solved in the code — kept human and simple.
+            </p>
+          </div>
+
+          <div class="challenge-grid" data-reveal>
+            <article class="challenge"><span class="ch-num">1</span><h3 class="ch-title">AI security boundaries</h3><p class="ch-body">Keeping a helpful agent strictly read-only while it still feels useful.</p></article>
+            <article class="challenge"><span class="ch-num">2</span><h3 class="ch-title">Payment verification</h3><p class="ch-body">Never trusting the frontend callback on its own — HMAC must win.</p></article>
+            <article class="challenge"><span class="ch-num">3</span><h3 class="ch-title">Webhook verification</h3><p class="ch-body">Signing the exact raw body so whitespace tampering fails.</p></article>
+            <article class="challenge"><span class="ch-num">4</span><h3 class="ch-title">Server-authoritative pricing</h3><p class="ch-body">Re-deriving every price and total on the server, ignoring the client.</p></article>
+            <article class="challenge"><span class="ch-num">5</span><h3 class="ch-title">Idempotency</h3><p class="ch-body">Duplicate orders and webhooks must not double-charge or double-transition.</p></article>
+            <article class="challenge"><span class="ch-num">6</span><h3 class="ch-title">Payment failures</h3><p class="ch-body">Representing failure explicitly instead of silently losing it.</p></article>
+            <article class="challenge"><span class="ch-num">7</span><h3 class="ch-title">UNKNOWN state</h3><p class="ch-body">Deciding what happens when the upstream outcome is genuinely ambiguous.</p></article>
+            <article class="challenge"><span class="ch-num">8</span><h3 class="ch-title">E2E test stability</h3><p class="ch-body">Making 282 Playwright tests deterministic under parallel workers.</p></article>
+            <article class="challenge"><span class="ch-num">9</span><h3 class="ch-title">Mobile layout issues</h3><p class="ch-body">Chat, cart, and approval flows that hold up on small screens.</p></article>
+          </div>
+
+          <div class="story-note" data-reveal>
+            <p>
+              At one point everything broke at 2 AM. Red Bull was consumed. The agents were given more work.
+              Somehow, it shipped.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== OBJECTIVES ============================== -->
+      <section class="section" id="objectives">
+        <div class="container">
+          <div class="objectives" data-reveal>
+            <p class="obj-lead">The Objective</p>
+            <h2 class="obj-title">Nimbus Commerce solves the trust and control problem in AI-powered shopping.</h2>
+            <div class="obj-list">
+              <span>Conversational AI shopping</span>
+              <span>Real product recommendations</span>
+              <span>Server-authoritative pricing</span>
+              <span>User-controlled purchases</span>
+              <span>Secure Razorpay payments</span>
+              <span>Safe payment failure handling</span>
+              <span>Complete auditability</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== FINAL CTA ============================== -->
+      <section class="section section--ink" id="cta">
+        <div class="container">
+          <div class="cta-final" data-reveal>
+            <h2 class="cta-title">AI makes shopping conversational.<br /><span>The server keeps commerce trustworthy.</span></h2>
+            <div class="cta-actions">
+              <a class="btn btn--primary" href="#demo">
+                <span>Try Nimbus Commerce</span>
+                <span class="cta-orb" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+                    <path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </a>
+              <a class="btn btn--ghost btn--ghost-light" href="#github">View Source</a>
+              <a class="btn btn--ghost btn--ghost-light" href="#architecture">Explore Architecture</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== GITHUB ============================== -->
+      <section class="section" id="github">
+        <div class="container">
+          <div class="github-card" data-reveal>
+            <div class="gh-head">
+              <span class="eyebrow">Explore the Code</span>
+              <h2 class="gh-title">GitHub Repository</h2>
+            </div>
+            <a class="gh-link" href="https://github.com/AasishDairelSahayaGrinspan/Razorpay_buildathon_2026" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+              </svg>
+              <span>Razorpay_buildathon_2026</span>
+            </a>
+            <p class="gh-body">
+              The repository contains the full Next.js application: the AI agent and read-only catalog tools,
+              cart and deterministic pricing, approval and policy engine, Razorpay TEST checkout, HMAC
+              verification, webhook handling, the transaction state machine, the audit trail, merchant pages,
+              and the Vitest + Playwright test suites.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================== FOOTER ============================== -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
+              <path d="M6 8h20M6 16h20M6 24h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <circle cx="25" cy="24" r="3" fill="currentColor" />
+            </svg>
+          </span>
+          <span>Nimbus Commerce</span>
+        </div>
+        <div class="footer-meta">
+          <span>Razorpay Buildathon 2026</span>
+          <span class="footer-sep" aria-hidden="true"></span>
+          <span>Razorpay TEST mode — no real money processed</span>
+        </div>
+        <a class="footer-github" href="https://github.com/AasishDairelSahayaGrinspan/Razorpay_buildathon_2026" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </div>
+    </footer>
+
+    <div class="grain" aria-hidden="true"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
