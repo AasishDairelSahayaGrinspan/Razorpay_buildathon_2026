@@ -58,7 +58,7 @@ async function main() {
       active: true,
       tags: "webcam, video, wfh, hd",
       features: JSON.stringify(["1080p", "Auto-focus", "Privacy shutter"]),
-      image: "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=600&q=80&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&q=80&auto=format&fit=crop",
     },
     {
       name: "Keyboard — Mechanical Compact",
