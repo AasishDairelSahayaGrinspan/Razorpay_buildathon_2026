@@ -199,6 +199,24 @@ Verified baseline: 281/281 unit tests passing, 282/282 Playwright tests passing,
 11. Open the Audit Trail to see the immutable history.
 12. Demonstrate the explainable transaction history and state transitions.
 
+## Build Challenges & Technical Obstacles
+
+The biggest challenge was making the AI shopping flow, Razorpay checkout, webhooks, and payment states work together without letting the AI directly control payments.
+
+I also had to deal with stale cart data, payment verification, webhook signatures, idempotency, mobile UI issues, and flaky E2E tests.
+
+At one point, everything broke at 2 AM. I drank a Red Bull, gave the problem to the coding agents, and somehow we survived. 
+
+We fixed the issues by:
+
+- Using server-side price validation instead of trusting the AI or browser.
+- Using Razorpay Test Mode APIs for order creation and payment verification.
+- Adding HMAC signature verification for payments and webhooks.
+- Building a strict transaction state machine for success, failure, and unknown states.
+- Adding idempotency and retry handling for duplicate requests and Razorpay failures.
+- Using Playwright + Vitest extensively to catch regressions.
+- Adding security boundaries so the AI agent cannot create carts, approve payments, create Razorpay orders, or access payment secrets.
+
 ## Limitations / Scope
 
 This is a Razorpay TEST-mode demonstration and is not a production payment deployment. It does not implement real-money capture, refunds, subscriptions, payouts, or production-grade identity/security. The database is a local SQLite file and conversation context is in-memory. Groq is used for conversational intent and reply generation only; all prices, product IDs, and payment state remain server-authoritative.
