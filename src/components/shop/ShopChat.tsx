@@ -470,11 +470,15 @@ export function ShopChat({ initialProducts }: { initialProducts: ApiProduct[] })
   const [addingId, setAddingId] = React.useState<string | null>(null);
   const [addError, setAddError] = React.useState<string | null>(null);
 
-  // Auto-scroll to the latest message
+  // Auto-scroll to the latest message — also when product cards finish
+  // loading (they grow the container) or the user scrolls manually the
+  // sentinel keeps the view pinned to the bottom.
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
+  const chatLogRef = React.useRef<HTMLDivElement | null>(null);
+  const allIdsKey = allIds.join(",");
   React.useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, loading]);
+  }, [messages, loading, allIdsKey]);
 
   const handleAdd = async (productId: string) => {
     setAddingId(productId);
@@ -550,8 +554,8 @@ export function ShopChat({ initialProducts }: { initialProducts: ApiProduct[] })
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-      <div className="flex min-w-0 flex-col gap-4">
+    <div className="grid min-h-0 gap-6 lg:grid-cols-[1fr_380px]">
+      <div className="flex min-w-0 flex-col gap-4 min-h-0">
         <Card>
           <CardHeader>
             <CardTitle className="flex flex-wrap items-center gap-2 text-[14px]">
@@ -561,12 +565,13 @@ export function ShopChat({ initialProducts }: { initialProducts: ApiProduct[] })
             </CardTitle>
             <CardDescription>Ask in natural language — the assistant remembers context within this chat. Prices and product data are always pulled from the live catalog. The assistant never adds to your cart for you.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex min-h-0 flex-col gap-4">
             <div
+              ref={chatLogRef}
               role="log"
               aria-live="polite"
               aria-label="Chat history"
-              className="flex flex-col gap-3 max-h-[480px] overflow-y-auto rounded-[12px] border border-[var(--border)] bg-[#f8fafc] p-4"
+              className="flex min-h-0 flex-col gap-3 max-h-[min(480px,55vh)] min-h-[200px] overflow-y-auto overscroll-contain rounded-[12px] border border-[var(--border)] bg-[#f8fafc] p-4"
             >
               {messages.map((m) => (
                 <div
