@@ -471,13 +471,23 @@ export function ShopChat({ initialProducts }: { initialProducts: ApiProduct[] })
   const [addError, setAddError] = React.useState<string | null>(null);
 
   // Auto-scroll to the latest message — also when product cards finish
-  // loading (they grow the container) or the user scrolls manually the
-  // sentinel keeps the view pinned to the bottom.
+  // loading (they grow the container). FIX: scroll only the chat container,
+  // not the window. `scrollIntoView({ block: "end" })` scrolls the entire
+  // page to the sentinel on mount, so the shop page (and home page via
+  // shared layout) appeared to start at the bottom.
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
   const chatLogRef = React.useRef<HTMLDivElement | null>(null);
   const allIdsKey = allIds.join(",");
+  const isFirstRender = React.useRef(true);
   React.useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    // Skip auto-scroll on first mount (welcome message) — page should start at top
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const el = chatLogRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages, loading, allIdsKey]);
 
   const handleAdd = async (productId: string) => {

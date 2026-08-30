@@ -61,6 +61,32 @@ function initTree() {
   });
 }
 
+function initHashScrollFix() {
+  // FIX: opening https://.../#demo scrolls to bottom because #demo is near
+  // the end of the page — that's correct browser anchor behavior, but if you
+  // share the showcase URL with #demo, visitors land at the bottom and think
+  // "site starts from bottom" is a bug. Also browsers restore previous scroll
+  // position on reload.
+  // We force start at top on full page load, and only scroll to hash when
+  // user clicks a navigation link (handled by smooth css scroll).
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  // If URL has a hash on initial load, strip it and start at top.
+  // Comment this block out if you WANT #demo to auto-scroll to demo section.
+  if (window.location.hash) {
+    // Keep hash in history but don't jump to it
+    const cleanUrl = window.location.pathname + window.location.search;
+    history.replaceState(null, "", cleanUrl);
+  }
+  window.scrollTo(0, 0);
+  // Also guard against browser late hash jump after assets load
+  window.addEventListener("load", () => {
+    window.scrollTo(0, 0);
+  });
+}
+
 initNav();
 initReveal();
 initTree();
+initHashScrollFix();
